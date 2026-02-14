@@ -39,4 +39,4 @@ resilience4j:
 
 logging:
   level:
-    com.example.order: DEBUG
+    reacty.probe.one.order: DEBUG

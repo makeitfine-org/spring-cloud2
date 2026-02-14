@@ -1,4 +1,4 @@
-version: '3.8'
+#version: '3.8'
 
 services:
   # ─── Infrastructure ──────────────────────────────────────────
@@ -87,6 +87,9 @@ services:
   # ─── Discovery Server ───────────────────────────────────────
 
   discovery-server:
+#    build:
+#      context: ./discovery-server
+#    restart: always
     build:
       context: ./discovery-server
       dockerfile: Dockerfile

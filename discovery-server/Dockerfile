@@ -5,7 +5,7 @@ COPY pom.xml .
 COPY src ./src
 
 RUN apk add --no-cache maven && \
-    mvn install:install-file -Dfile=/app/parent-pom.xml -DgroupId=com.example -DartifactId=microservices-parent -Dversion=1.0.0-SNAPSHOT -Dpackaging=pom && \
+    mvn install:install-file -Dfile=/app/parent-pom.xml -DgroupId=reacty.probe.one -DartifactId=microservices-parent -Dversion=0.0.1-SNAPSHOT -Dpackaging=pom && \
     mvn clean package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
@@ -13,3 +13,11 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8761
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
+#FROM eclipse-temurin:21-jdk
+#
+#VOLUME /tmp
+#
+#COPY target/discovery-server-0.0.1-SNAPSHOT.jar /app.jar
+#
+#CMD ["java", "-jar", "/app.jar"]

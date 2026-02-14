@@ -39,4 +39,4 @@ resilience4j:
 
 logging:
   level:
-    com.example.inventory: DEBUG
+    reacty.probe.one.inventory: DEBUG
