@@ -1,0 +1,47 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10000
+        permitted-number-of-calls-in-half-open-state: 5
+    instances:
+      orderServiceCB:
+        base-config: default
+      inventoryServiceCB:
+        base-config: default
+      deliveryServiceCB:
+        base-config: default
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 3s
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
