@@ -64,8 +64,8 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
-    volumes:
-      - order-data:/var/lib/postgresql/data
+#    volumes:
+#      - order-data:/var/lib/postgresql/data
     networks:
       - microservices-net
 
@@ -78,8 +78,8 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5433:5432"
-    volumes:
-      - inventory-data:/var/lib/postgresql/data
+#    volumes:
+#      - inventory-data:/var/lib/postgresql/data
     networks:
       - microservices-net
 
@@ -92,8 +92,8 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5434:5432"
-    volumes:
-      - delivery-data:/var/lib/postgresql/data
+#    volumes:
+#      - delivery-data:/var/lib/postgresql/data
     networks:
       - microservices-net
 
@@ -215,10 +215,10 @@ services:
     networks:
       - microservices-net
 
-volumes:
-  order-data:
-  inventory-data:
-  delivery-data:
+#volumes:
+#  order-data:
+#  inventory-data:
+#  delivery-data:
 
 networks:
   microservices-net:

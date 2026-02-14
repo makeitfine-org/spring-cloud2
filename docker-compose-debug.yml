@@ -12,10 +12,20 @@ services:
 
   inventory-service:
     ports:
-      - "5006:5006"
-    command: java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 -jar /app.jar
+      - "5006:5005"
+    command: java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -jar /app.jar
 
   delivery-service:
     ports:
-      - "5007:5007"
-    command: java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 -jar /app.jar
+      - "5007:5005"
+    command: java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -jar /app.jar
+
+  discovery-server:
+    ports:
+      - "5008:5005"
+    command: java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -jar /app.jar
+
+  api-gateway:
+      ports:
+        - "5009:5005"
+      command: java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -jar /app.jar
