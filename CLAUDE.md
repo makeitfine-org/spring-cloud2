@@ -137,3 +137,4 @@ The debug compose file maps JDWP ports:
 
 - Always use the **Context7 MCP** proactively when you need library/API documentation, code generation, or setup steps — don't wait to be explicitly asked
 - When generating commit messages, do NOT add `Co-Authored-By: Claude` trailers
+- When asked to `commit`, generate a semantic commit message (max 80 characters), stage relevant changes, and create the commit — no `Co-Authored-By` trailer
