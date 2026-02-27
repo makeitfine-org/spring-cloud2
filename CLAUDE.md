@@ -132,3 +132,7 @@ The debug compose file maps JDWP ports:
 | order-service     | 5007       |
 | inventory-service | 5008       |
 | delivery-service  | 5009       |
+
+## Claude Code Workflow
+
+- Always use the **Context7 MCP** proactively when you need library/API documentation, code generation, or setup steps — don't wait to be explicitly asked
