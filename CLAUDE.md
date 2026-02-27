@@ -103,3 +103,32 @@ Kafka topics: `order-created`, `inventory-reserved`, `inventory-failed`, `delive
 - Circuit breaker fallback methods live in `FallbackController` classes in the gateway
 - R2DBC schema initialization is done via `schema.sql` in each service's `src/main/resources/`
 - All services register with Eureka; gateway uses `lb://service-name` URIs for load-balanced routing
+- Kafka listeners must call `.subscribe()` on any returned `Mono`/`Flux` — listeners are not reactive contexts
+- `KafkaConfig` uses `JsonDeserializer.USE_TYPE_INFO_HEADERS: false` and `TRUSTED_PACKAGES: "reacty.probe.one.inventory.*"` on all consumer factories
+- Base package for all services: `reacty.probe.one.inventory.{service-name}`
+
+## Testing
+
+Integration tests use **Testcontainers** with `@SpringBootTest`, `@Testcontainers`, `@ActiveProfiles("test")`, and `@ServiceConnection` for automatic container wiring. Each business service has one integration test file (e.g., `OrderServiceIntegrationTest`). The gateway has a unit test using `@WebFluxTest`.
+
+Test profiles disable Eureka and Zipkin; see `src/test/resources/application-test.yml` per service.
+
+```bash
+# Run integration tests for a single service (requires Docker for Testcontainers)
+mvn test -pl order-service
+
+# Run only unit tests (skip integration tests by naming convention)
+mvn test -pl api-gateway
+```
+
+## Remote Debugging
+
+The debug compose file maps JDWP ports:
+
+| Service           | Debug Port |
+|-------------------|------------|
+| discovery-server  | 5005       |
+| api-gateway       | 5006       |
+| order-service     | 5007       |
+| inventory-service | 5008       |
+| delivery-service  | 5009       |
