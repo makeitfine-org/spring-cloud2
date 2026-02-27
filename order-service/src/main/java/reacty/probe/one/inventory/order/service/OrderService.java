@@ -64,9 +64,10 @@ public class OrderService {
     public Mono<Order> updateOrderStatus(Long orderId, String status, String reason) {
         log.debug("Looking up order {} to update status to {}", orderId, status);
         return orderRepository.findById(orderId)
-                .switchIfEmpty(Mono.fromRunnable(() ->
-                    log.error("Order {} not found when trying to update status to {}", orderId, status)
-                ).then(Mono.empty()))
+                .switchIfEmpty(Mono.defer(() -> {
+                    log.error("Order {} not found when trying to update status to {}", orderId, status);
+                    return Mono.error(new IllegalStateException("Order not found: " + orderId));
+                }))
                 .flatMap(order -> {
                     order.setStatus(status);
                     if (reason != null) {
