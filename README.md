@@ -129,20 +129,20 @@ spring-cloud2/
 
 ## Technology Stack
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| Java | 21 | Language runtime |
-| Spring Boot | 3.5.0 | Application framework |
+| Technology | Version  | Purpose |
+|------------|----------|---------|
+| Java | 21       | Language runtime |
+| Spring Boot | 3.5.0    | Application framework |
 | Spring Cloud | 2025.0.0 | Cloud-native infrastructure |
-| Spring WebFlux | — | Reactive HTTP layer (`Mono`/`Flux`) |
-| Spring Data R2DBC | — | Reactive PostgreSQL access |
-| PostgreSQL | 16 | Persistent storage (one DB per service) |
-| Apache Kafka | — | Saga event bus (choreography) |
-| Resilience4j | — | Circuit breakers on gateway routes |
-| Micrometer + OpenTelemetry | — | Metrics and distributed tracing |
-| Zipkin | — | Trace visualization |
-| Testcontainers | — | Integration testing with real containers |
-| Docker Compose | — | Local stack orchestration |
+| Spring WebFlux | —        | Reactive HTTP layer (`Mono`/`Flux`) |
+| Spring Data R2DBC | —        | Reactive PostgreSQL access |
+| PostgreSQL | 17       | Persistent storage (one DB per service) |
+| Apache Kafka | —        | Saga event bus (choreography) |
+| Resilience4j | —        | Circuit breakers on gateway routes |
+| Micrometer + OpenTelemetry | —        | Metrics and distributed tracing |
+| Zipkin | —        | Trace visualization |
+| Testcontainers | —        | Integration testing with real containers |
+| Docker Compose | —        | Local stack orchestration |
 
 ---
 

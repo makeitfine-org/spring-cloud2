@@ -26,7 +26,11 @@ public class SagaEventConsumer {
         log.info("Received InventoryReservedEvent for order: {}", event.orderId());
         // Inventory reserved — waiting for delivery scheduling
         orderService.updateOrderStatus(event.orderId(), "INVENTORY_RESERVED", null)
-                .subscribe();
+                .subscribe(
+                    order -> log.info("Order {} status successfully updated to INVENTORY_RESERVED", event.orderId()),
+                    error -> log.error("Failed to update order {} status to INVENTORY_RESERVED: {}",
+                            event.orderId(), error.getMessage(), error)
+                );
     }
 
     @KafkaListener(
@@ -37,7 +41,11 @@ public class SagaEventConsumer {
     public void handleInventoryFailed(InventoryFailedEvent event) {
         log.info("Received InventoryFailedEvent for order: {} — reason: {}", event.orderId(), event.reason());
         orderService.updateOrderStatus(event.orderId(), "CANCELLED", event.reason())
-                .subscribe();
+                .subscribe(
+                    order -> log.info("Order {} status successfully updated to CANCELLED", event.orderId()),
+                    error -> log.error("Failed to update order {} status to CANCELLED: {}",
+                            event.orderId(), error.getMessage(), error)
+                );
     }
 
     @KafkaListener(
@@ -49,6 +57,10 @@ public class SagaEventConsumer {
         log.info("Received DeliveryScheduledEvent for order: {} — delivery ID: {}",
                 event.orderId(), event.deliveryId());
         orderService.updateOrderStatus(event.orderId(), "CONFIRMED", null)
-                .subscribe();
+                .subscribe(
+                    order -> log.info("Order {} status successfully updated to CONFIRMED", event.orderId()),
+                    error -> log.error("Failed to update order {} status to CONFIRMED: {}",
+                            event.orderId(), error.getMessage(), error)
+                );
     }
 }
