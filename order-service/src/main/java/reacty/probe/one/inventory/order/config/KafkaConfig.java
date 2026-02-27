@@ -66,6 +66,10 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<String, InventoryReservedEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
+        factory.setCommonErrorHandler(new org.springframework.kafka.listener.DefaultErrorHandler((exception, data) -> {
+            org.slf4j.LoggerFactory.getLogger(KafkaConfig.class)
+                    .error("Error processing inventory-reserved event: {}", data, exception);
+        }));
         return factory;
     }
 
@@ -89,6 +93,10 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<String, InventoryFailedEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
+        factory.setCommonErrorHandler(new org.springframework.kafka.listener.DefaultErrorHandler((exception, data) -> {
+            org.slf4j.LoggerFactory.getLogger(KafkaConfig.class)
+                    .error("Error processing inventory-failed event: {}", data, exception);
+        }));
         return factory;
     }
 
@@ -112,6 +120,10 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<String, DeliveryScheduledEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
+        factory.setCommonErrorHandler(new org.springframework.kafka.listener.DefaultErrorHandler((exception, data) -> {
+            org.slf4j.LoggerFactory.getLogger(KafkaConfig.class)
+                    .error("Error processing delivery-scheduled event: {}", data, exception);
+        }));
         return factory;
     }
 }
