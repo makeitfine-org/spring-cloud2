@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SagaEventConsumer {
 
+    private static final int BLOCK_TIMEOUT_SECONDS = 10;
+
     private final OrderService orderService;
 
     public SagaEventConsumer(OrderService orderService) {
@@ -25,7 +27,7 @@ public class SagaEventConsumer {
         // Inventory reserved — waiting for delivery scheduling
         try {
             orderService.updateOrderStatus(event.orderId(), "INVENTORY_RESERVED", null)
-                    .block(java.time.Duration.ofSeconds(10));
+                    .block(java.time.Duration.ofSeconds(BLOCK_TIMEOUT_SECONDS));
             log.info("Order {} status successfully updated to INVENTORY_RESERVED", event.orderId());
         } catch (Exception e) {
             log.error("Failed to update order {} status to INVENTORY_RESERVED: {}",
@@ -43,7 +45,7 @@ public class SagaEventConsumer {
         log.info("Received InventoryFailedEvent for order: {} — reason: {}", event.orderId(), event.reason());
         try {
             orderService.updateOrderStatus(event.orderId(), "CANCELLED", event.reason())
-                    .block(java.time.Duration.ofSeconds(10));
+                    .block(java.time.Duration.ofSeconds(BLOCK_TIMEOUT_SECONDS));
             log.info("Order {} status successfully updated to CANCELLED", event.orderId());
         } catch (Exception e) {
             log.error("Failed to update order {} status to CANCELLED: {}",
@@ -61,7 +63,7 @@ public class SagaEventConsumer {
                 event.orderId(), event.deliveryId());
         try {
             orderService.updateOrderStatus(event.orderId(), "CONFIRMED", null)
-                    .block(java.time.Duration.ofSeconds(10));
+                    .block(java.time.Duration.ofSeconds(BLOCK_TIMEOUT_SECONDS));
             log.info("Order {} status successfully updated to CONFIRMED", event.orderId());
         } catch (Exception e) {
             log.error("Failed to update order {} status to CONFIRMED: {}",

@@ -38,5 +38,8 @@ public class Order {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public void setStatus(String status) { this.status = status; this.updatedAt = LocalDateTime.now(); }
+    public void setStatus(String status) {
+        this.status = status;
+        this.updatedAt = LocalDateTime.now();
+    }
 }

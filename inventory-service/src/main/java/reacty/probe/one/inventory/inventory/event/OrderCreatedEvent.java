@@ -7,4 +7,5 @@ public record OrderCreatedEvent(
         String productId,
         Integer quantity,
         BigDecimal price
-) {}
+) {
+}

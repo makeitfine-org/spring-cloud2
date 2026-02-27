@@ -4,4 +4,5 @@ public record InventoryReservedEvent(
         Long orderId,
         String productId,
         Integer quantity
-) {}
+) {
+}

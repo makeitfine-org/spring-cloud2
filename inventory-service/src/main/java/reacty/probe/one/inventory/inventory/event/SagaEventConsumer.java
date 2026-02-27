@@ -33,7 +33,8 @@ public class SagaEventConsumer {
                         sagaEventProducer.publishInventoryReserved(
                                 new InventoryReservedEvent(event.orderId(), event.productId(), event.quantity()));
                     } else {
-                        log.warn("Stock reservation failed for order {} — publishing InventoryFailedEvent", event.orderId());
+                        log.warn("Stock reservation failed for order {} — publishing InventoryFailedEvent",
+                                event.orderId());
                         sagaEventProducer.publishInventoryFailed(
                                 new InventoryFailedEvent(event.orderId(), event.productId(),
                                         "Insufficient stock for product: " + event.productId()));
