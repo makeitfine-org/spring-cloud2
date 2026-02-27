@@ -18,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -29,7 +31,6 @@ import reacty.probe.one.inventory.inventory.repository.InventoryRepository;
 
 import java.math.BigDecimal;
 import java.time.Duration;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -52,6 +53,11 @@ class InventoryServiceIntegrationTest {
     static KafkaContainer kafka = new KafkaContainer(
             DockerImageName.parse("confluentinc/cp-kafka:7.6.0"));
 
+    @DynamicPropertySource
+    static void kafkaProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers);
+    }
+
     @Autowired
     WebTestClient webTestClient;
 
@@ -66,6 +72,14 @@ class InventoryServiceIntegrationTest {
 
     @BeforeEach
     void setUp() {
+        inventoryRepository.deleteAll()
+                .thenMany(inventoryRepository.saveAll(List.of(
+                        new InventoryItem("prod-1", 100),
+                        new InventoryItem("prod-2", 50),
+                        new InventoryItem("prod-3", 200)
+                )))
+                .blockLast();
+
         Properties consumerProps = new Properties();
         consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafka.getBootstrapServers());
         consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "test-consumer-group-" + System.nanoTime());
