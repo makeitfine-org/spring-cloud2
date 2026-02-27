@@ -19,6 +19,12 @@ public class SagaEventProducer {
 
     public void publishDeliveryScheduled(DeliveryScheduledEvent event) {
         log.info("Publishing DeliveryScheduledEvent for order {} — delivery {}", event.orderId(), event.deliveryId());
-        kafkaTemplate.send(DELIVERY_SCHEDULED_TOPIC, String.valueOf(event.orderId()), event);
+        kafkaTemplate.send(DELIVERY_SCHEDULED_TOPIC, String.valueOf(event.orderId()), event)
+                .whenComplete((result, ex) -> {
+                    if (ex != null) {
+                        log.error("Failed to publish DeliveryScheduledEvent for order {}: {}",
+                                event.orderId(), ex.getMessage());
+                    }
+                });
     }
 }

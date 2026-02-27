@@ -20,11 +20,23 @@ public class SagaEventProducer {
 
     public void publishInventoryReserved(InventoryReservedEvent event) {
         log.info("Publishing InventoryReservedEvent for order {}", event.orderId());
-        kafkaTemplate.send(INVENTORY_RESERVED_TOPIC, String.valueOf(event.orderId()), event);
+        kafkaTemplate.send(INVENTORY_RESERVED_TOPIC, String.valueOf(event.orderId()), event)
+                .whenComplete((result, ex) -> {
+                    if (ex != null) {
+                        log.error("Failed to publish InventoryReservedEvent for order {}: {}",
+                                event.orderId(), ex.getMessage());
+                    }
+                });
     }
 
     public void publishInventoryFailed(InventoryFailedEvent event) {
         log.info("Publishing InventoryFailedEvent for order {}", event.orderId());
-        kafkaTemplate.send(INVENTORY_FAILED_TOPIC, String.valueOf(event.orderId()), event);
+        kafkaTemplate.send(INVENTORY_FAILED_TOPIC, String.valueOf(event.orderId()), event)
+                .whenComplete((result, ex) -> {
+                    if (ex != null) {
+                        log.error("Failed to publish InventoryFailedEvent for order {}: {}",
+                                event.orderId(), ex.getMessage());
+                    }
+                });
     }
 }

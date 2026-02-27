@@ -1,0 +1,10 @@
+eureka:
+  client:
+    enabled: false
+spring:
+  sql:
+    init:
+      mode: always
+management:
+  tracing:
+    enabled: false

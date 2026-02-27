@@ -4,6 +4,7 @@ import reacty.probe.one.inventory.order.model.Order;
 import reacty.probe.one.inventory.order.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -25,7 +26,8 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public Mono<Order> getOrder(@PathVariable Long id) {
-        return orderService.getOrderById(id);
+        return orderService.getOrderById(id)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
     }
 
     @GetMapping

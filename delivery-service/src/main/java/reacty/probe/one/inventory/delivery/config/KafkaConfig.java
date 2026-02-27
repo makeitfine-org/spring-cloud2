@@ -51,7 +51,7 @@ public class KafkaConfig {
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
 
         // Configure JsonDeserializer
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "reacty.probe.one.inventory.*");
         props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, InventoryReservedEvent.class.getName());
         // Do not use type info headers to avoid ClassNotFoundException when package
         // names differ

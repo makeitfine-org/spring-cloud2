@@ -38,7 +38,13 @@ public class OrderService {
                             savedOrder.getQuantity(),
                             savedOrder.getPrice()
                     );
-                    kafkaTemplate.send(ORDER_CREATED_TOPIC, String.valueOf(savedOrder.getId()), event);
+                    kafkaTemplate.send(ORDER_CREATED_TOPIC, String.valueOf(savedOrder.getId()), event)
+                            .whenComplete((result, ex) -> {
+                                if (ex != null) {
+                                    log.error("Failed to publish OrderCreatedEvent for order {}: {}",
+                                            savedOrder.getId(), ex.getMessage());
+                                }
+                            });
                 });
     }
 
@@ -64,6 +70,7 @@ public class OrderService {
                     if (reason != null) {
                         order.setFailureReason(reason);
                     }
+                    order.setUpdatedAt(java.time.LocalDateTime.now());
                     return orderRepository.save(order);
                 })
                 .doOnSuccess(order -> log.info("Order {} status updated to {}", orderId, status));

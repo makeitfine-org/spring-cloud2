@@ -47,7 +47,7 @@ public class KafkaConfig {
 
         // Configure JsonDeserializer explicitly
         JsonDeserializer<OrderCreatedEvent> jsonDeserializer = new JsonDeserializer<>(OrderCreatedEvent.class);
-        jsonDeserializer.addTrustedPackages("*");
+        jsonDeserializer.addTrustedPackages("reacty.probe.one.inventory.*");
         jsonDeserializer.setUseTypeHeaders(false);
 
         // Wrap with ErrorHandlingDeserializer
