@@ -15,6 +15,10 @@
     <name>Discovery Server</name>
     <description>Eureka Service Discovery Server</description>
 
+    <properties>
+        <checkstyle.skip>true</checkstyle.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

@@ -31,6 +31,7 @@
         <spring-cloud.version>2025.0.1</spring-cloud.version>
         <testcontainers.version>1.21.0</testcontainers.version>
         <lombok.version>1.18.30</lombok.version>
+        <checkstyle-maven-plugin.version>3.6.0</checkstyle-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -76,6 +77,23 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle-maven-plugin.version}</version>
+                <configuration>
+                    <configLocation>docs/checkstyle/checkstyle.xml</configLocation>
+                    <suppressionsLocation>docs/checkstyle/suppressions.xml</suppressionsLocation>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

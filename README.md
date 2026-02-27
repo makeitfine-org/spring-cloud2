@@ -163,6 +163,9 @@ mvn clean package -DskipTests
 # Build a single module
 mvn clean package -DskipTests -pl order-service
 
+# Run Checkstyle (disabled by default)
+mvn validate -Dcheckstyle.skip=false
+
 # Start full stack (builds images and starts all containers)
 docker compose up --build
 
