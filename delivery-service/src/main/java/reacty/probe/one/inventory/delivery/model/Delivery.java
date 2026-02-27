@@ -1,10 +1,14 @@
 package reacty.probe.one.inventory.delivery.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 
+@Data
+@NoArgsConstructor
 @Table("deliveries")
 public class Delivery {
 
@@ -18,9 +22,6 @@ public class Delivery {
     private LocalDateTime scheduledAt;
     private LocalDateTime deliveredAt;
 
-    public Delivery() {
-    }
-
     public Delivery(Long orderId, String productId, Integer quantity) {
         this.orderId = orderId;
         this.productId = productId;
@@ -29,28 +30,4 @@ public class Delivery {
         this.address = "Default Warehouse Address";
         this.scheduledAt = LocalDateTime.now();
     }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Long getOrderId() { return orderId; }
-    public void setOrderId(Long orderId) { this.orderId = orderId; }
-
-    public String getProductId() { return productId; }
-    public void setProductId(String productId) { this.productId = productId; }
-
-    public Integer getQuantity() { return quantity; }
-    public void setQuantity(Integer quantity) { this.quantity = quantity; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
-
-    public LocalDateTime getScheduledAt() { return scheduledAt; }
-    public void setScheduledAt(LocalDateTime scheduledAt) { this.scheduledAt = scheduledAt; }
-
-    public LocalDateTime getDeliveredAt() { return deliveredAt; }
-    public void setDeliveredAt(LocalDateTime deliveredAt) { this.deliveredAt = deliveredAt; }
 }
