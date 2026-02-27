@@ -1,15 +1,13 @@
 package reacty.probe.one.inventory.delivery.event;
 
 import reacty.probe.one.inventory.delivery.service.DeliveryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class SagaEventConsumer {
-
-    private static final Logger log = LoggerFactory.getLogger(SagaEventConsumer.class);
 
     private final DeliveryService deliveryService;
     private final SagaEventProducer sagaEventProducer;

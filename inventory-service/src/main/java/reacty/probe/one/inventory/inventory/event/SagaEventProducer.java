@@ -1,14 +1,12 @@
 package reacty.probe.one.inventory.inventory.event;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class SagaEventProducer {
-
-    private static final Logger log = LoggerFactory.getLogger(SagaEventProducer.class);
     private static final String INVENTORY_RESERVED_TOPIC = "inventory-reserved";
     private static final String INVENTORY_FAILED_TOPIC = "inventory-failed";
 

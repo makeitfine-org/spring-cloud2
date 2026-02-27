@@ -3,16 +3,14 @@ package reacty.probe.one.inventory.inventory.service;
 import reacty.probe.one.inventory.inventory.model.InventoryItem;
 import reacty.probe.one.inventory.inventory.repository.InventoryRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 public class InventoryService {
-
-    private static final Logger log = LoggerFactory.getLogger(InventoryService.class);
 
     private final InventoryRepository inventoryRepository;
 

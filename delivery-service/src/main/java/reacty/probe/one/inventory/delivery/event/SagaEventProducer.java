@@ -1,14 +1,12 @@
 package reacty.probe.one.inventory.delivery.event;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class SagaEventProducer {
-
-    private static final Logger log = LoggerFactory.getLogger(SagaEventProducer.class);
     private static final String DELIVERY_SCHEDULED_TOPIC = "delivery-scheduled";
 
     private final KafkaTemplate<String, Object> kafkaTemplate;

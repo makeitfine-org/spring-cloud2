@@ -4,17 +4,15 @@ import reacty.probe.one.inventory.order.event.OrderCreatedEvent;
 import reacty.probe.one.inventory.order.model.Order;
 import reacty.probe.one.inventory.order.repository.OrderRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 public class OrderService {
-
-    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
     private static final String ORDER_CREATED_TOPIC = "order-created";
 
     private final OrderRepository orderRepository;
