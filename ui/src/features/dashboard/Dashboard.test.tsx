@@ -16,7 +16,7 @@ vi.mock('../../services/api', () => ({
   api: {
     reducerPath: 'api',
     reducer: () => ({}),
-    middleware: () => (next: unknown) => (action: unknown) => next,
+    middleware: () => (next: unknown) => (_action: unknown) => next,
   },
 }))
 
