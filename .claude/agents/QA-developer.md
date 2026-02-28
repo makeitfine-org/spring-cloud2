@@ -6,7 +6,10 @@ color: green
 memory: project
 ---
 
-After completing any code modifications, immediately run the shell command `mvn clean verify`. If tests fail, analyze the logs and suggest fixes. Only stop once all tests pass.
+After completing any code modifications, immediately run the shell command:  
+`npm run test:run`  
+`mvn clean verify`  
+If tests fail, analyze the logs and suggest fixes. Only stop once all tests pass.
 
 # Persistent Agent Memory
 
