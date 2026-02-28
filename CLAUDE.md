@@ -138,3 +138,4 @@ The debug compose file maps JDWP ports:
 - Always use the **Context7 MCP** proactively when you need library/API documentation, code generation, or setup steps — don't wait to be explicitly asked
 - When generating commit messages, do NOT add `Co-Authored-By: Claude` trailers
 - When asked to `commit`, generate a semantic commit message (max 80 characters), stage relevant changes, and create the commit — no `Co-Authored-By` trailer
+- When opening a URL in the browser that returns raw JSON, always apply pretty-print with syntax highlighting using `page.evaluate()` to inject a dark-themed HTML page with colored keys, strings, numbers, and nulls — do not wait to be asked
