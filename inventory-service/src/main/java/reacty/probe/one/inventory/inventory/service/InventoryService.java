@@ -20,18 +20,14 @@ public class InventoryService {
 
     @CircuitBreaker(name = "inventoryService", fallbackMethod = "reserveStockFallback")
     public Mono<Boolean> reserveStock(String productId, int quantity) {
-        return inventoryRepository.findByProductId(productId)
-                .flatMap(item -> {
-                    if (item.getAvailableQuantity() >= quantity) {
-                        item.setReservedQuantity(item.getReservedQuantity() + quantity);
-                        return inventoryRepository.save(item)
-                                .doOnSuccess(saved -> log.info("Reserved {} units of product {} — available: {}",
-                                        quantity, productId, saved.getAvailableQuantity()))
-                                .thenReturn(true);
+        return inventoryRepository.atomicReserve(productId, quantity)
+                .map(updated -> {
+                    if (updated > 0) {
+                        log.info("Reserved {} units of product {}", quantity, productId);
+                        return true;
                     } else {
-                        log.warn("Insufficient stock for product {}: requested={}, available={}",
-                                productId, quantity, item.getAvailableQuantity());
-                        return Mono.just(false);
+                        log.warn("Insufficient stock for product {}: requested={}", productId, quantity);
+                        return false;
                     }
                 })
                 .defaultIfEmpty(false);

@@ -235,3 +235,6 @@ dry.txt
 
 .cursor/
 Makefile
+
+#MCP
+.playwright-mcp
