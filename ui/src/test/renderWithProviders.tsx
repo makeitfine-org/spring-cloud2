@@ -7,7 +7,7 @@ import type { ReactNode } from 'react'
 function Wrapper({ children }: { children: ReactNode }) {
   return (
     <Provider store={store}>
-      <MemoryRouter>{children}</MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>{children}</MemoryRouter>
     </Provider>
   )
 }
