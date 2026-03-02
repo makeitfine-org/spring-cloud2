@@ -1,0 +1,18 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  r2dbc:
+    url: r2dbc:h2:mem:///deliverydb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+
+eureka:
+  client:
+    enabled: false
+
+management:
+  tracing:
+    enabled: false

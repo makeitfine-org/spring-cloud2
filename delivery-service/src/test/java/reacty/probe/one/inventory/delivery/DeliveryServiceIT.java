@@ -1,4 +1,4 @@
-package reacty.probe.one.inventory.inventory;
+package reacty.probe.one.inventory.delivery;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -26,10 +25,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import reacty.probe.one.inventory.inventory.model.InventoryItem;
-import reacty.probe.one.inventory.inventory.repository.InventoryRepository;
+import reacty.probe.one.inventory.delivery.model.Delivery;
+import reacty.probe.one.inventory.delivery.repository.DeliveryRepository;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +40,7 @@ import static org.awaitility.Awaitility.await;
 @Testcontainers
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
-class InventoryServiceIntegrationTest {
+class DeliveryServiceIT {
 
     @Container
     @ServiceConnection
@@ -62,7 +60,7 @@ class InventoryServiceIntegrationTest {
     WebTestClient webTestClient;
 
     @Autowired
-    InventoryRepository inventoryRepository;
+    DeliveryRepository deliveryRepository;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -72,14 +70,6 @@ class InventoryServiceIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        inventoryRepository.deleteAll()
-                .thenMany(inventoryRepository.saveAll(List.of(
-                        new InventoryItem("prod-1", 100),
-                        new InventoryItem("prod-2", 50),
-                        new InventoryItem("prod-3", 200)
-                )))
-                .blockLast();
-
         Properties consumerProps = new Properties();
         consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafka.getBootstrapServers());
         consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "test-consumer-group-" + System.nanoTime());
@@ -93,6 +83,8 @@ class InventoryServiceIntegrationTest {
         producerProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         kafkaProducer = new KafkaProducer<>(producerProps);
+
+        deliveryRepository.deleteAll().block();
     }
 
     @AfterEach
@@ -102,104 +94,86 @@ class InventoryServiceIntegrationTest {
     }
 
     @Test
-    void getInventoryItem_existingProduct_returnsItem() {
+    void getAllDeliveries_returnsEmpty() {
         webTestClient.get()
-                .uri("/api/inventory/prod-1")
+                .uri("/api/deliveries")
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(InventoryItem.class)
-                .value(item -> {
-                    assertThat(item.getProductId()).isEqualTo("prod-1");
-                    assertThat(item.getQuantity()).isEqualTo(100);
-                });
+                .expectBodyList(Delivery.class)
+                .hasSize(0);
     }
 
     @Test
-    void getInventoryItem_nonExistingProduct_returns404() {
+    void getDelivery_nonExistingId_returns404() {
         webTestClient.get()
-                .uri("/api/inventory/unknown-product")
+                .uri("/api/deliveries/9999")
                 .exchange()
                 .expectStatus().isNotFound();
     }
 
     @Test
-    void addInventoryItem_createsItem() {
-        InventoryItem item = new InventoryItem("prod-test-new", 50);
-
-        webTestClient.post()
-                .uri("/api/inventory")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(item)
+    void getDeliveryByOrder_nonExistingOrderId_returns404() {
+        webTestClient.get()
+                .uri("/api/deliveries/order/9999")
                 .exchange()
-                .expectStatus().isCreated()
-                .expectBody(InventoryItem.class)
-                .value(saved -> {
-                    assertThat(saved.getId()).isNotNull();
-                    assertThat(saved.getProductId()).isEqualTo("prod-test-new");
-                    assertThat(saved.getQuantity()).isEqualTo(50);
-                });
+                .expectStatus().isNotFound();
     }
 
     @Test
-    void getAllItems_returnsSeededItems() {
+    void handleInventoryReserved_schedulesDelivery() throws Exception {
+        kafkaConsumer.subscribe(List.of("delivery-scheduled"));
+
+        long orderId = 200L;
+        String event = objectMapper.writeValueAsString(
+                Map.of("orderId", orderId, "productId", "prod-1", "quantity", 3));
+        kafkaProducer.send(new ProducerRecord<>("inventory-reserved",
+                String.valueOf(orderId), event)).get();
+
+        await().atMost(Duration.ofSeconds(15)).untilAsserted(() -> {
+            Delivery delivery = deliveryRepository.findByOrderId(orderId).block();
+            assertThat(delivery).isNotNull();
+            assertThat(delivery.getStatus()).isEqualTo("SCHEDULED");
+            assertThat(delivery.getOrderId()).isEqualTo(orderId);
+        });
+
+        boolean[] eventFound = {false};
+        await().atMost(Duration.ofSeconds(10)).untilAsserted(() -> {
+            var records = kafkaConsumer.poll(Duration.ofMillis(500));
+            for (ConsumerRecord<String, String> record : records) {
+                Map<?, ?> payload = objectMapper.readValue(record.value(), Map.class);
+                if (((Number) payload.get("orderId")).longValue() == orderId) {
+                    eventFound[0] = true;
+                }
+            }
+            assertThat(eventFound[0]).isTrue();
+        });
+    }
+
+    @Test
+    void getDelivery_afterScheduling_returnsDelivery() throws Exception {
+        long orderId = 201L;
+        String event = objectMapper.writeValueAsString(
+                Map.of("orderId", orderId, "productId", "prod-2", "quantity", 1));
+        kafkaProducer.send(new ProducerRecord<>("inventory-reserved",
+                String.valueOf(orderId), event)).get();
+
+        await().atMost(Duration.ofSeconds(15)).untilAsserted(() -> {
+            Delivery delivery = deliveryRepository.findByOrderId(orderId).block();
+            assertThat(delivery).isNotNull();
+        });
+
+        Delivery delivery = deliveryRepository.findByOrderId(orderId).block();
+        assertThat(delivery).isNotNull();
+
         webTestClient.get()
-                .uri("/api/inventory")
+                .uri("/api/deliveries/{id}", delivery.getId())
                 .exchange()
                 .expectStatus().isOk()
-                .expectBodyList(InventoryItem.class)
-                .value(items -> {
-                    List<String> productIds = items.stream()
-                            .map(InventoryItem::getProductId)
-                            .toList();
-                    assertThat(productIds).contains("prod-1", "prod-2", "prod-3");
+                .expectBody(Delivery.class)
+                .value(d -> {
+                    assertThat(d.getId()).isEqualTo(delivery.getId());
+                    assertThat(d.getOrderId()).isEqualTo(orderId);
+                    assertThat(d.getStatus()).isEqualTo("SCHEDULED");
                 });
-    }
-
-    @Test
-    void handleOrderCreated_sufficientStock_publishesInventoryReserved() throws Exception {
-        kafkaConsumer.subscribe(List.of("inventory-reserved"));
-
-        String event = objectMapper.writeValueAsString(
-                Map.of("orderId", 100L, "productId", "prod-1", "quantity", 5,
-                        "price", new BigDecimal("9.99")));
-        kafkaProducer.send(new ProducerRecord<>("order-created", "100", event)).get();
-
-        boolean[] eventFound = {false};
-        await().atMost(Duration.ofSeconds(15)).untilAsserted(() -> {
-            var records = kafkaConsumer.poll(Duration.ofMillis(500));
-            for (ConsumerRecord<String, String> record : records) {
-                Map<?, ?> payload = objectMapper.readValue(record.value(), Map.class);
-                if ("prod-1".equals(payload.get("productId"))) {
-                    eventFound[0] = true;
-                }
-            }
-            assertThat(eventFound[0]).isTrue();
-        });
-
-        InventoryItem item = inventoryRepository.findByProductId("prod-1").block();
-        assertThat(item).isNotNull();
-        assertThat(item.getReservedQuantity()).isGreaterThanOrEqualTo(5);
-    }
-
-    @Test
-    void handleOrderCreated_insufficientStock_publishesInventoryFailed() throws Exception {
-        kafkaConsumer.subscribe(List.of("inventory-failed"));
-
-        String event = objectMapper.writeValueAsString(
-                Map.of("orderId", 101L, "productId", "prod-2", "quantity", 100,
-                        "price", new BigDecimal("1.00")));
-        kafkaProducer.send(new ProducerRecord<>("order-created", "101", event)).get();
-
-        boolean[] eventFound = {false};
-        await().atMost(Duration.ofSeconds(15)).untilAsserted(() -> {
-            var records = kafkaConsumer.poll(Duration.ofMillis(500));
-            for (ConsumerRecord<String, String> record : records) {
-                Map<?, ?> payload = objectMapper.readValue(record.value(), Map.class);
-                if ("prod-2".equals(payload.get("productId"))) {
-                    eventFound[0] = true;
-                }
-            }
-            assertThat(eventFound[0]).isTrue();
-        });
     }
 }

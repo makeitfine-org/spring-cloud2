@@ -82,7 +82,9 @@
       "mcp__postgres-inventory__*",
       "mcp__postgres-delivery__*",
       "Bash(git check-ignore -v settings.local.json 2>/dev/null; find . -name \"settings.local.json\" 2>/dev/null | head -20)",
-      "Bash(git check-ignore -v .claude/settings.local.json)"
+      "Bash(git check-ignore -v .claude/settings.local.json)",
+      "Bash(find /home/eug/dev/projects/my/spring-cloud2/inventory-service/target/surefire-reports -name \"*.txt\" | xargs ls -t | head -5)",
+      "Bash(git commit -m \"$\\(cat <<'EOF'\ntest: add fast tests \\(embedded Kafka + H2\\) and split IT phase\n\n- Add *FastTest classes per service using @EmbeddedKafka + H2 in-memory\n- Add schema-h2.sql and application-fast.yml per service\n- Rename *IntegrationTest → *IT for Failsafe \\(mvn verify\\)\n- Add maven-surefire-plugin \\(excludes *IT\\) and maven-failsafe-plugin\n- Add spring-kafka-test, r2dbc-h2, h2 test deps to service pom files\nEOF\n\\)\")"
     ]
   }
 }
