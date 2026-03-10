@@ -11,12 +11,17 @@ mvn clean package -DskipTests
 # Build a single module
 mvn clean package -DskipTests -pl order-service
 
-# Run all tests
+# Run fast tests only (embedded Kafka + H2, no Docker)
 mvn test
+
+# Run full test suite including integration tests (requires Docker)
+mvn verify
 
 # Run tests for a single module
 mvn test -pl order-service
 ```
+
+> Checkstyle is enforced via `docs/checkstyle/checkstyle.xml` — runs as part of `mvn verify`
 
 ## Running the Stack
 
@@ -41,6 +46,7 @@ docker compose down
 
 | Service | URL |
 |---|---|
+| UI (React) | http://localhost:3000 |
 | API Gateway | http://localhost:8080 |
 | Eureka Dashboard | http://localhost:8761 |
 | Kafka UI | http://localhost:8090 |
@@ -53,7 +59,7 @@ All business endpoints should be accessed via the gateway at port 8080.
 
 ## Architecture Overview
 
-**Multi-module Maven project** with 5 Spring Boot 3.5.0 services using Java 21 and Spring Cloud 2025.0.0.
+**Multi-module Maven project** with 5 Spring Boot 3.5.1 services using Java 21 and Spring Cloud 2025.0.1.
 
 ### Services
 
@@ -103,22 +109,60 @@ Kafka topics: `order-created`, `inventory-reserved`, `inventory-failed`, `delive
 - Circuit breaker fallback methods live in `FallbackController` classes in the gateway
 - R2DBC schema initialization is done via `schema.sql` in each service's `src/main/resources/`
 - All services register with Eureka; gateway uses `lb://service-name` URIs for load-balanced routing
-- Kafka listeners must call `.subscribe()` on any returned `Mono`/`Flux` — listeners are not reactive contexts
+- Kafka listeners are not reactive contexts — use `.block(Duration.ofSeconds(10))` on returned `Mono`/`Flux`
 - `KafkaConfig` uses `JsonDeserializer.USE_TYPE_INFO_HEADERS: false` and `TRUSTED_PACKAGES: "reacty.probe.one.inventory.*"` on all consumer factories
 - Base package for all services: `reacty.probe.one.inventory.{service-name}`
 
 ## Testing
 
-Integration tests use **Testcontainers** with `@SpringBootTest`, `@Testcontainers`, `@ActiveProfiles("test")`, and `@ServiceConnection` for automatic container wiring. Each business service has one integration test file (e.g., `OrderServiceIntegrationTest`). The gateway has a unit test using `@WebFluxTest`.
+### Two-tier test strategy
 
-Test profiles disable Eureka and Zipkin; see `src/test/resources/application-test.yml` per service.
+- **`*FastTest.java`** — fast tests using `@EmbeddedKafka` + H2 in-memory DB, activated by `@ActiveProfiles("fast")`. Each service has `src/test/resources/application-fast.yml` and `schema-h2.sql` for H2 compatibility. Runs in `mvn test` (Surefire phase, **no Docker needed**).
+- **`*IT.java`** — integration tests using Testcontainers (real PostgreSQL + Kafka containers) with `@SpringBootTest`, `@Testcontainers`, `@ActiveProfiles("test")`, and `@ServiceConnection`. Runs in `mvn verify` (Failsafe phase, **requires Docker**).
+
+The gateway has a unit test using `@WebFluxTest`. Test profiles disable Eureka and Zipkin; see `src/test/resources/application-test.yml` per service.
 
 ```bash
-# Run integration tests for a single service (requires Docker for Testcontainers)
+# Run fast tests only (no Docker required)
+mvn test
+
+# Run all tests including integration tests (requires Docker)
+mvn verify
+
+# Run tests for a single module
 mvn test -pl order-service
 
-# Run only unit tests (skip integration tests by naming convention)
-mvn test -pl api-gateway
+# Run full suite for a single module
+mvn verify -pl order-service
+```
+
+## CI/CD
+
+GitHub Actions at `.github/workflows/ci.yml`:
+- Triggers on push to `main` or `develop`
+- Steps: JDK 21 setup → `mvn install -N` (install parent POM first) → `mvn clean verify` (all tests + checkstyle)
+- Timeout: 5 minutes
+
+## UI (React Frontend)
+
+React 18 + TypeScript + Redux Toolkit + TailwindCSS, served at http://localhost:3000.
+
+### Running the UI locally
+
+```bash
+cd ui && npm install && npm run dev
+```
+
+### Key files
+
+- `ui/src/services/api.ts` — RTK Query endpoints (proxies to gateway at `/api`)
+- `ui/src/features/` — orders, inventory, deliveries, dashboard
+- `ui/src/components/` — Navbar, Layout, StatusBadge, ErrorBanner
+
+### UI Tests (Vitest + React Testing Library)
+
+```bash
+cd ui && npm test
 ```
 
 ## Remote Debugging
