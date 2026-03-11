@@ -134,6 +134,36 @@
         "voice-mode"
       ],
       "timeout": 60000
+    },
+    "postgres-order": {
+      "type": "stdio",
+      "disabled": false,
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:postgres@localhost:5432/orderdb"
+      ]
+    },
+    "postgres-inventory": {
+      "type": "stdio",
+      "disabled": false,
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:postgres@localhost:5433/inventorydb"
+      ]
+    },
+    "postgres-delivery": {
+      "type": "stdio",
+      "disabled": false,
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:postgres@localhost:5434/deliverydb"
+      ]
     }
   }
 }

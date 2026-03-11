@@ -85,3 +85,36 @@
 - blackbox/session-log.md
 - ui/Dockerfile
 <!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-11T13:48:37Z -->
+- .mcp.json
+<!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-11T13:52:41Z -->
+- .mcp.json
+- blackbox/session-log.md
+<!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-11T13:53:07Z -->
+- .mcp.json
+- blackbox/session-log.md
+<!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-11T14:14:45Z -->
+- blackbox/session-log.md
+<!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-11T14:25:04Z -->
+- .mcp.json
+- blackbox/session-log.md
+<!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-11T14:25:35Z -->
+- .mcp.json
+- blackbox/session-log.md
+<!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-11T14:26:13Z -->
+- .mcp.json
+- blackbox/session-log.md
+<!-- end-snapshot -->
