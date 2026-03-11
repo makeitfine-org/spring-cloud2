@@ -91,9 +91,10 @@
       "Read(./config/credentials.json)"
     ]
   },
-   "env": {
+  "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1"
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "MAX_THINKING_TOKENS": "10000"
   },
   "teammateMode": "tmux",
   "hooks": {
