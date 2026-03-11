@@ -75,3 +75,13 @@
 - ui/src/features/orders/CreateOrderForm.test.tsx
 - ui/src/features/orders/CreateOrderForm.tsx
 <!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-11T13:41:03Z -->
+- .mcp.json
+<!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-11T13:41:42Z -->
+- .mcp.json
+- blackbox/session-log.md
+- ui/Dockerfile
+<!-- end-snapshot -->
