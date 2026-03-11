@@ -23,9 +23,9 @@ public class SagaEventConsumer {
             containerFactory = "inventoryReservedListenerFactory"
     )
     public void handleInventoryReserved(InventoryReservedEvent event) {
-        log.info("Received InventoryReservedEvent for order: {}", event.orderId());
         // Inventory reserved — waiting for delivery scheduling
         try {
+            log.info("Received InventoryReservedEvent for order: {}", event.orderId());
             orderService.updateOrderStatus(event.orderId(), "INVENTORY_RESERVED", null)
                     .block(java.time.Duration.ofSeconds(BLOCK_TIMEOUT_SECONDS));
             log.info("Order {} status successfully updated to INVENTORY_RESERVED", event.orderId());
@@ -41,9 +41,8 @@ public class SagaEventConsumer {
             containerFactory = "inventoryFailedListenerFactory"
     )
     public void handleInventoryFailed(InventoryFailedEvent event) {
-        log.debug("handleInventoryFailed called with event: {}", event);
-        log.info("Received InventoryFailedEvent for order: {} — reason: {}", event.orderId(), event.reason());
         try {
+            log.info("Received InventoryFailedEvent for order: {} — reason: {}", event.orderId(), event.reason());
             orderService.updateOrderStatus(event.orderId(), "CANCELLED", event.reason())
                     .block(java.time.Duration.ofSeconds(BLOCK_TIMEOUT_SECONDS));
             log.info("Order {} status successfully updated to CANCELLED", event.orderId());
@@ -59,9 +58,9 @@ public class SagaEventConsumer {
             containerFactory = "deliveryScheduledListenerFactory"
     )
     public void handleDeliveryScheduled(DeliveryScheduledEvent event) {
-        log.info("Received DeliveryScheduledEvent for order: {} — delivery ID: {}",
-                event.orderId(), event.deliveryId());
         try {
+            log.info("Received DeliveryScheduledEvent for order: {} — delivery ID: {}",
+                    event.orderId(), event.deliveryId());
             orderService.updateOrderStatus(event.orderId(), "CONFIRMED", null)
                     .block(java.time.Duration.ofSeconds(BLOCK_TIMEOUT_SECONDS));
             log.info("Order {} status successfully updated to CONFIRMED", event.orderId());

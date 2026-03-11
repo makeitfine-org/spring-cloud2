@@ -60,6 +60,7 @@ public class KafkaConfig {
         // Do not use type info headers to avoid ClassNotFoundException when package
         // names differ
         props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         return new DefaultKafkaConsumerFactory<>(props);
     }
@@ -70,6 +71,10 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<String, InventoryReservedEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
+        factory.setCommonErrorHandler(new org.springframework.kafka.listener.DefaultErrorHandler((exception, data) -> {
+            org.slf4j.LoggerFactory.getLogger(KafkaConfig.class)
+                    .error("Error processing inventory-reserved event: {}", data, exception);
+        }));
         return factory;
     }
 }

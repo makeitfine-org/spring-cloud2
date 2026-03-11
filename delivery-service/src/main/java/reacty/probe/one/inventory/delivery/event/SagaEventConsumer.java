@@ -23,15 +23,23 @@ public class SagaEventConsumer {
             containerFactory = "inventoryReservedListenerFactory"
     )
     public void handleInventoryReserved(InventoryReservedEvent event) {
-        log.info("Received InventoryReservedEvent — orderId: {}, productId: {}, qty: {}",
-                event.orderId(), event.productId(), event.quantity());
-
-        deliveryService.scheduleDelivery(event.orderId(), event.productId(), event.quantity())
-                .subscribe(delivery -> {
-                    log.info("Delivery scheduled for order {} — delivery ID: {} — publishing DeliveryScheduledEvent",
-                            event.orderId(), delivery.getId());
-                    sagaEventProducer.publishDeliveryScheduled(
-                            new DeliveryScheduledEvent(event.orderId(), delivery.getId(), delivery.getStatus()));
-                });
+        try {
+            log.info("Received InventoryReservedEvent — orderId: {}, productId: {}, qty: {}",
+                    event.orderId(), event.productId(), event.quantity());
+            deliveryService.scheduleDelivery(event.orderId(), event.productId(), event.quantity())
+                    .subscribe(
+                            delivery -> {
+                                log.info("Delivery scheduled for order {} — delivery ID: {} — publishing DeliveryScheduledEvent",
+                                        event.orderId(), delivery.getId());
+                                sagaEventProducer.publishDeliveryScheduled(
+                                        new DeliveryScheduledEvent(event.orderId(), delivery.getId(), delivery.getStatus()));
+                            },
+                            error -> log.error("Failed to schedule delivery for order {}: {}",
+                                    event.orderId(), error.getMessage(), error)
+                    );
+        } catch (Exception e) {
+            log.error("Unexpected error handling InventoryReservedEvent for order {}: {}",
+                    event.orderId(), e.getMessage(), e);
+        }
     }
 }

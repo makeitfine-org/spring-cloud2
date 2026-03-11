@@ -57,6 +57,7 @@ public class KafkaConfig {
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "reacty.probe.one.inventory.*");
         props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, InventoryReservedEvent.class.getName());
         props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
@@ -84,6 +85,7 @@ public class KafkaConfig {
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "reacty.probe.one.inventory.*");
         props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, InventoryFailedEvent.class.getName());
         props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
@@ -111,6 +113,7 @@ public class KafkaConfig {
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "reacty.probe.one.inventory.*");
         props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, DeliveryScheduledEvent.class.getName());
         props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
