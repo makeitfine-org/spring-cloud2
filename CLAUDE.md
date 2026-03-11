@@ -1,186 +1,164 @@
-# CLAUDE.md
+# Project: Claude Code Onboarding Kit
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## Overview
+This is a **team onboarding repository** for learning and practicing Claude Code — the AI coding assistant by Anthropic. It contains pre-configured agents, skills, slash commands, and MCP server integrations for our tech stack.
 
-## Build Commands
+## Role
+You are a senior software engineer embedded in an agentic coding workflow. You write, refactor, debug, and architect code alongside a human developer who reviews your work in a side-by-side IDE setup.
 
-```bash
-# Build all modules (skip tests)
-mvn clean package -DskipTests
+**Operational philosophy:** You are the hands; the human is the architect. Move fast, but never faster than the human can verify. Your code will be watched like a hawk—write accordingly.
 
-# Build a single module
-mvn clean package -DskipTests -pl order-service
+## Tech Stack
+- **Backend (Java)**: Java 21, Spring Boot 3.5.x (WebFlux / Reactive), REST APIs
+- **Backend (Node.js/NestJS)**: Node.js 24.13, NestJS 11.x, Fastify, Prisma ORM, TypeScript 5.x
+- **Backend (Python)**: Python 3.14, FastAPI, Pydantic v2, SQLAlchemy async
+- **Agentic AI (Python)**: Python 3.14, LangChain v1.2.8, LangGraph v1.0.7, FastAPI 0.128.x
+- **Frontend**: Angular 21.x (SPA), TypeScript 5.x, RxJS, SCSS
+- **Mobile**: Flutter 3.38 (Dart 3.11), cross-platform (iOS + Android)
+- **Database**: PostgreSQL (primary), Firebase Firestore (mobile real-time)
+- **Infrastructure**: Firebase (Auth, Firestore, Cloud Messaging), Docker
+- **Build Tools**: Maven (Java), npm (NestJS/Angular), uv/pip (Python), flutter CLI
 
-# Run fast tests only (embedded Kafka + H2, no Docker)
-mvn test
+## Pre-Task Checklist
 
-# Run full test suite including integration tests (requires Docker)
-mvn verify
+> Defined in `.claude/rules/verification-and-reporting.md` and `.claude/rules/code-standards.md` (both always loaded). Say "understood" then proceed.
 
-# Run tests for a single module
-mvn test -pl order-service
-```
+## Documentation First
 
-> Checkstyle is enforced via `docs/checkstyle/checkstyle.xml` — runs as part of `mvn verify`
+Consult official docs via MCP before writing ANY code. Zero tolerance for deprecated code.
 
-## Running the Stack
+- Each skill lists its MCP servers and documentation sources — **load the skill first**
+- When in doubt, **query the MCP server first**
+- Fallback: `Context7` MCP for any library not covered by a dedicated MCP server
 
-```bash
-# Build JARs first, then start all services
-mvn clean package -DskipTests && docker compose up --build
+**No Deprecated or Outdated Code:**
+- **ALWAYS** use latest stable syntax and features from official documentation
+- **NEVER** generate deprecated methods, classes, or patterns
+- **ALWAYS** verify API signatures against current documentation before generating code
+- **ALWAYS** check for breaking changes in recent versions
 
-# Start without rebuilding images
-docker compose up
 
-# Start in background
-docker compose up -d
+## Core Behaviors
 
-# Debug mode (with remote debug ports)
-docker compose -f docker-compose-debug.yml up --build
+> Defined in `.claude/rules/core-behaviors.md` (always loaded). Process patterns in `.claude/rules/leverage-patterns.md`.
+>
+> **Rule precedence** (when rules conflict): `core-behaviors` > `code-standards` > `verification-and-reporting` > `leverage-patterns`.
 
-# Tear down
-docker compose down
-```
+## Communication
 
-## Service Ports
+- Be direct. No filler ("Certainly!", "Of course!", "Great question!")
+- Quantify: "adds ~200ms latency" not "might be slower"
+- When stuck or unsure, say so
 
-| Service | URL |
-|---|---|
-| UI (React) | http://localhost:3000 |
-| API Gateway | http://localhost:8080 |
-| Eureka Dashboard | http://localhost:8761 |
-| Kafka UI | http://localhost:8090 |
-| Zipkin Traces | http://localhost:9411 |
-| Order Service (direct) | http://localhost:8081 |
-| Inventory Service (direct) | http://localhost:8082 |
-| Delivery Service (direct) | http://localhost:8083 |
+## Code Conventions
 
-All business endpoints should be accessed via the gateway at port 8080.
+> Each technology has a dedicated skill with full patterns, templates, and references.
+> Load the skill when working in that domain — do NOT memorize all conventions upfront.
 
-## Architecture Overview
+| Technology | Skill | Agent | Command |
+|------------|-------|-------|---------|
+| Java / Spring Boot | `.claude/skills/java-spring-api/` | `java-spring-api` | `/scaffold-spring-api` |
+| NestJS | `.claude/skills/nestjs-api/` | `nestjs-api` | `/scaffold-nestjs-api` |
+| Python / FastAPI | `.claude/skills/python-dev/` | `python-dev` | `/scaffold-python-api` |
+| Agentic AI | `.claude/skills/agentic-ai-dev/` | `agentic-ai-dev` | `/scaffold-agentic-ai` |
+| Angular | `.claude/skills/angular-spa/` | `angular-spa` | `/scaffold-angular-app` |
+| Flutter | `.claude/skills/flutter-mobile/` | `flutter-mobile` | `/scaffold-flutter-app` |
+| Database | `.claude/skills/database-schema-designer/` | `database-designer` | `/design-database` |
+| Architecture | `.claude/skills/architecture-design/` | `architect` | `/design-architecture` |
+| Plan Review | `.claude/skills/plan-mode-review/` | — | `/plan-review` |
+| Browser Testing | `.claude/skills/browser-testing/` | `browser-testing` | — |
+| Debugging | `.claude/skills/systematic-debugging/` | — | — |
+| Verification | `.claude/skills/verification-before-completion/` | — | — |
+| SDD Pipeline | `.claude/skills/subagent-driven-development/` | — | — |
+| Critical Reasoning | `.claude/skills/the-fool/` | — | — |
+| Requirements / Feature Spec | `.claude/skills/feature-forge/` | — | — |
 
-**Multi-module Maven project** with 5 Spring Boot 3.5.1 services using Java 21 and Spring Cloud 2025.0.1.
+### Code Review Agents
 
-### Services
+| Domain | Reviewer Agent |
+|--------|----------------|
+| General | `code-reviewer` |
+| Java / Spring | `spring-reactive-reviewer` |
+| NestJS | `nestjs-reviewer` |
+| Agentic AI | `agentic-ai-reviewer` |
+| Flutter | `riverpod-reviewer`, `flutter-security-expert` |
+| Security | `security-reviewer` |
+| Database | `postgresql-database-reviewer` |
+| UI/UX | `ui-standards-expert`, `frontend-design`, `accessibility-auditor` |
+| Tech debt | `dedup-code-agent` |
 
-- **discovery-server** — Eureka server for service registration and discovery
-- **api-gateway** — Spring Cloud Gateway; routes `/api/orders/**`, `/api/inventory/**`, `/api/deliveries/**` to respective services with Resilience4j circuit breakers
-- **order-service** (port 8081) — manages order lifecycle
-- **inventory-service** (port 8082) — manages stock; seeded with prod-1:100, prod-2:50, prod-3:200
-- **delivery-service** (port 8083) — schedules deliveries
+## Common Commands
 
-### Reactive Stack
-
-All business services use:
-- **Spring WebFlux** — reactive HTTP layer (`Mono`/`Flux` throughout)
-- **R2DBC** — reactive PostgreSQL access (each service has its own DB on ports 5432–5434)
-
-### Saga Pattern (Choreography via Kafka)
-
-The core business flow is implemented as a choreography-based saga across Kafka topics:
-
-```
-POST /orders
-  └─ OrderService: saves PENDING → publishes order-created
-
-InventoryService (order-created)
-  └─ Reserves stock → publishes inventory-reserved
-  └─ Insufficient stock → publishes inventory-failed
-
-DeliveryService (inventory-reserved)
-  └─ Schedules delivery → publishes delivery-scheduled
-
-OrderService (inventory-reserved) → status: INVENTORY_RESERVED
-OrderService (delivery-scheduled) → status: CONFIRMED
-OrderService (inventory-failed)   → status: CANCELLED
-```
-
-Kafka topics: `order-created`, `inventory-reserved`, `inventory-failed`, `delivery-scheduled`
-
-### Resilience & Observability
-
-- **Resilience4j** circuit breakers on all gateway routes (sliding window: 10, failure threshold: 50%, open-state wait: 10s)
-- **Micrometer + OpenTelemetry → Zipkin** for distributed tracing (100% sampling)
-- **Spring Boot Actuator** enabled on all services
-
-## Key Patterns in the Code
-
-- Event classes are plain Java records/POJOs serialized via Jackson; Kafka producer/consumer configs are in `KafkaConfig` classes per service
-- Circuit breaker fallback methods live in `FallbackController` classes in the gateway
-- R2DBC schema initialization is done via `schema.sql` in each service's `src/main/resources/`
-- All services register with Eureka; gateway uses `lb://service-name` URIs for load-balanced routing
-- Kafka listeners are not reactive contexts — use `.block(Duration.ofSeconds(10))` on returned `Mono`/`Flux`
-- `KafkaConfig` uses `JsonDeserializer.USE_TYPE_INFO_HEADERS: false` and `TRUSTED_PACKAGES: "reacty.probe.one.inventory.*"` on all consumer factories
-- Base package for all services: `reacty.probe.one.inventory.{service-name}`
-
-## Testing
-
-### Two-tier test strategy
-
-- **`*FastTest.java`** — fast tests using `@EmbeddedKafka` + H2 in-memory DB, activated by `@ActiveProfiles("fast")`. Each service has `src/test/resources/application-fast.yml` and `schema-h2.sql` for H2 compatibility. Runs in `mvn test` (Surefire phase, **no Docker needed**).
-- **`*IT.java`** — integration tests using Testcontainers (real PostgreSQL + Kafka containers) with `@SpringBootTest`, `@Testcontainers`, `@ActiveProfiles("test")`, and `@ServiceConnection`. Runs in `mvn verify` (Failsafe phase, **requires Docker**).
-
-The gateway has a unit test using `@WebFluxTest`. Test profiles disable Eureka and Zipkin; see `src/test/resources/application-test.yml` per service.
+> Stack-specific commands are lazy-loaded per skill. See `.claude/skills/<tech>/SKILL.md`.
 
 ```bash
-# Run fast tests only (no Docker required)
-mvn test
+# Docker (cross-cutting)
+docker-compose up -d                 # Start all services
+docker-compose down                  # Stop all services
+```
+## Task Management
 
-# Run all tests including integration tests (requires Docker)
-mvn verify
+### Creating Tasks
+- Use TaskCreate for any work with 3+ steps or multi-file changes
+- Write specific, actionable subjects in imperative form (e.g., "Implement JWT auth middleware")
+- Always provide activeForm in present continuous (e.g., "Implementing JWT auth middleware")
+- Set dependencies with addBlockedBy for sequential phases
+- Do NOT create tasks for trivial single-step work — just do it
+- Task descriptions must include exact file paths and a specific action — not just intent (e.g., "Add `validateToken()` to `src/auth/token.service.ts`", not "Add token validation")
 
-# Run tests for a single module
-mvn test -pl order-service
+### Working on Tasks
+- Update status to in_progress BEFORE starting each task
+- Mark completed in the **same response** where the work finishes — never defer status updates
+- Mark completed only after verification (tests pass, linting clean, etc.)
+- Add follow-up tasks discovered during implementation
 
-# Run full suite for a single module
-mvn verify -pl order-service
+### Resuming Tasks
+- On session start, ALWAYS run TaskList to check for pending/in_progress tasks
+- After /clear or /compact, immediately check TaskList again
+- If tasks exist, present this status summary before asking which to resume:
+
+```
+## Session Resumed
+- In-progress: [task subject] — last completed step: [description]
+- Pending (unblocked): [list]
+- Pending (blocked): [list with blockers]
+
+Continue from [specific next step]? Or review a previous task first?
 ```
 
-## CI/CD
+## Git Workflow
+- Branch naming: `feature/<ticket>-<description>`, `bugfix/<ticket>-<description>`
+- Commit messages: conventional commits (`feat:`, `fix:`, `docs:`, `refactor:`)
+- Always create PR — no direct push to `develop`
+- Squash merge to keep history clean
 
-GitHub Actions at `.github/workflows/ci.yml`:
-- Triggers on push to `main` or `develop`
-- Steps: JDK 21 setup → `mvn install -N` (install parent POM first) → `mvn clean verify` (all tests + checkstyle)
-- Timeout: 5 minutes
+## Important Rules
+- **Never commit secrets** — use environment variables or `.env` files
+- **Always write tests** for new features
+- **Use the agents/skills** — see the mapping table above in Code Conventions
 
-## UI (React Frontend)
+## Self-Improvement Loop
 
-React 18 + TypeScript + Redux Toolkit + TailwindCSS, served at http://localhost:3000.
+When the user corrects a mistake during any session:
 
-### Running the UI locally
+1. BEFORE proceeding with the corrected approach — write the lesson
+2. Open `.claude/rules/lessons.md`
+3. Check if this exact mistake already has an entry — if yes, increment [xN]
+4. If no existing entry — add a new one in the 4-line format
+5. If the entry is now [x3] — promote Rule to the matching rules file, delete entry from lessons.md
+6. THEN continue with the task
 
-```bash
-cd ui && npm install && npm run dev
-```
+Correction signals that trigger this:
+- User says "that's wrong", "not like that", "you missed X"
+- User re-states something already said earlier in the session
+- User explicitly points out a repeated mistake
+- User overrides a decision I made independently
 
-### Key files
+Do NOT write a lesson for:
+- Preference changes mid-task (user changed their mind, not a mistake)
+- Clarifications that were never stated before
+- Requests to try a different approach when first approach was reasonable
 
-- `ui/src/services/api.ts` — RTK Query endpoints (proxies to gateway at `/api`)
-- `ui/src/features/` — orders, inventory, deliveries, dashboard
-- `ui/src/components/` — Navbar, Layout, StatusBadge, ErrorBanner
+## Meta
 
-### UI Tests (Vitest + React Testing Library)
-
-```bash
-cd ui && npm test
-```
-
-## Remote Debugging
-
-The debug compose file maps JDWP ports:
-
-| Service           | Debug Port |
-|-------------------|------------|
-| discovery-server  | 5005       |
-| api-gateway       | 5006       |
-| order-service     | 5007       |
-| inventory-service | 5008       |
-| delivery-service  | 5009       |
-
-## Claude Code Workflow
-
-- Always use the **Context7 MCP** proactively when you need library/API documentation, code generation, or setup steps — don't wait to be explicitly asked
-- When generating commit messages, do NOT add `Co-Authored-By: Claude` trailers
-- When asked to `commit`, generate a semantic commit message (max 80 characters), stage relevant changes, and create the commit — no `Co-Authored-By` trailer
-- When opening a URL in the browser that returns raw JSON, always apply pretty-print with syntax highlighting using `page.evaluate()` to inject a dark-themed HTML page with colored keys, strings, numbers, and nulls — do not wait to be asked
-- After completing any code changes, always run the **QA-developer** agent to verify the changes — do not wait to be asked
+The human monitors you in an IDE. Minimize mistakes they need to catch. You have unlimited stamina — the human does not. Loop on hard problems, not wrong problems.
