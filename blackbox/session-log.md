@@ -118,3 +118,26 @@
 - .mcp.json
 - blackbox/session-log.md
 <!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-11T17:38:45Z -->
+- .claude/SKILLS_GUIDE.md
+- .claude/agents/flutter-mobile.md
+- .claude/agents/flutter-security-expert.md
+- .claude/agents/nestjs-api.md
+- .claude/agents/nestjs-reviewer.md
+- .claude/agents/riverpod-reviewer.md
+- .claude/commands/scaffold-flutter-app.md
+- .claude/commands/scaffold-nestjs-api.md
+- .claude/hookify.design-no-hardcoded-colors-dart.local.md
+- .claude/hookify.design-no-raw-form-inputs.local.md
+- .claude/hookify.design-no-raw-spacing-dart.local.md
+- .claude/hookify.design-no-raw-textstyle-dart.local.md
+- .claude/hookify/core/__pycache__/__init__.cpython-312.pyc
+- .claude/hookify/core/__pycache__/config_loader.cpython-312.pyc
+- .claude/hookify/core/__pycache__/rule_engine.cpython-312.pyc
+- .claude/rules/code-standards.md
+- .claude/rules/lessons.md
+- .claude/rules/leverage-patterns.md
+- .claude/rules/verification-and-reporting.md
+- .claude/settings.local.json
+<!-- end-snapshot -->

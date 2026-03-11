@@ -7,7 +7,7 @@ agent: database-designer
 context: fork
 metadata:
   triggers: database schema, schema design, SQL design, NoSQL design, ERD, database design, create tables, model data, data modeling
-  related-skills: architecture-design, java-spring-api, nestjs-api, python-dev
+  related-skills: architecture-design, java-spring-api, python-dev
   domain: infrastructure
   role: architect
   scope: design
@@ -74,7 +74,7 @@ Read `reference/migration-patterns.md` for zero-downtime patterns and rollback s
 
 ### NoSQL Design
 
-For MongoDB, Firestore, and other document databases, read `reference/nosql-design-patterns.md` for embedding vs referencing patterns and Firestore-specific design rules.
+For MongoDB and other document databases, read `reference/nosql-design-patterns.md` for embedding vs referencing patterns.
 
 ## Commands
 
@@ -122,7 +122,6 @@ Before generating schemas or queries, consult these sources:
 | Source | URL / Tool | Purpose |
 |--------|-----------|---------|
 | PostgreSQL | `PostgreSQL MCP server` | Schema-aware SQL, introspection, admin-safe workflows |
-| Firebase Firestore | `Firebase MCP server` | Document design, rules, indexes for NoSQL schemas |
 
 ## Reference Files
 

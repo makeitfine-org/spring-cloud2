@@ -55,14 +55,11 @@ Pattern: `test_<what>_<when>_<expected>` (or `should_<expected>_when_<condition>
 # Java
 @Test void createUser_withDuplicateEmail_throwsConflictException()
 
-# NestJS/Jest
-it('should throw ConflictException when email already exists', ...)
-
 # Python/pytest
 def test_create_user_with_duplicate_email_raises_conflict():
 
-# Flutter
-test('createUser throws ConflictException when email is duplicate', ...)
+# Angular/Jasmine
+it('should throw ConflictException when email already exists', ...)
 ```
 
 ## Stack Dispatch
@@ -70,9 +67,7 @@ test('createUser throws ConflictException when email is duplicate', ...)
 | Stack | Reference File | Load When |
 |-------|---------------|-----------|
 | Java 21 / Spring Boot WebFlux | `references/tdd-patterns-java.md` | Writing tests for Spring Boot, WebFlux, reactive Java |
-| NestJS 11 / TypeScript | `references/tdd-patterns-nestjs.md` | Writing tests for NestJS, TypeScript, Fastify |
 | Python 3.14 / FastAPI | `references/tdd-patterns-python.md` | Writing tests for FastAPI, Pydantic, async Python |
-| Flutter / Dart | `references/tdd-patterns-flutter.md` | Writing tests for Flutter widgets, Riverpod providers, Dart |
 
 ## Quick Checklist
 

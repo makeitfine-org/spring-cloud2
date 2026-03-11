@@ -1,10 +1,10 @@
 ---
 name: ai-chat
-description: AI chat interface patterns for Angular 21.x and Flutter 3.38. Use when building streaming chat UI, conversational AI assistants, copilots, token context indicators, feedback loops, multi-modal inputs, tool visualization, or AI-specific error handling. Covers streaming markdown, auto-scroll heuristics, memoized rendering, token limit UI, regeneration controls, thumbs up/down feedback, and AI error states.
+description: AI chat interface patterns for Angular 21.x. Use when building streaming chat UI, conversational AI assistants, copilots, token context indicators, feedback loops, multi-modal inputs, tool visualization, or AI-specific error handling. Covers streaming markdown, auto-scroll heuristics, memoized rendering, token limit UI, regeneration controls, thumbs up/down feedback, and AI error states.
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, mcp__context7__resolve-library-id, mcp__context7__query-docs
 metadata:
   triggers: AI chat, streaming chat, conversational UI, chat interface, streaming response, token limit, AI assistant, copilot, chatbot, LLM UI, streaming markdown
-  related-skills: angular-spa, flutter-mobile, agentic-ai-dev
+  related-skills: angular-spa, agentic-ai-dev
   domain: frontend
   role: specialist
   scope: implementation
@@ -13,7 +13,7 @@ metadata:
 
 # AI Chat Interface Skill
 
-> **Tech Stack**: Angular 21.x (signals, daisyUI, TailwindCSS) | Flutter 3.38 (Riverpod, Dart 3.11)
+> **Tech Stack**: Angular 21.x (signals, daisyUI, TailwindCSS)
 
 ## When to Activate
 
@@ -32,24 +32,23 @@ Load this skill when the task involves any of:
 Before writing any component:
 
 1. **Angular**: Read `angular-spa` skill — verify signal/OnPush/daisyUI baseline
-2. **Flutter**: Read `flutter-mobile` skill — verify Riverpod/AppSpacing/colorScheme baseline
-3. **Docs**: Use `Context7` MCP for any library not confirmed in this session (e.g., `marked`, `flutter_markdown`)
+2. **Docs**: Use `Context7` MCP for any library not confirmed in this session (e.g., `marked`)
 
 ## Core Component Overview
 
-| Component | Angular | Flutter |
-|-----------|---------|---------|
-| Message bubble list | `ChatMessageListComponent` | `ChatMessageList` widget |
-| Streaming message display | `StreamingMessageComponent` | `StreamedMessageWidget` |
-| Token context indicator | `TokenIndicatorComponent` | `TokenIndicatorWidget` |
-| Chat input (multi-modal) | `ChatInputComponent` | `ChatInputWidget` |
-| Feedback bar | `FeedbackComponent` | `FeedbackBar` widget |
-| AI error display | `AiErrorComponent` | `AiErrorWidget` |
-| Tool call visualization | `ToolCallCardComponent` | `ToolCallCard` widget |
+| Component | Angular |
+|-----------|---------|
+| Message bubble list | `ChatMessageListComponent` |
+| Streaming message display | `StreamingMessageComponent` |
+| Token context indicator | `TokenIndicatorComponent` |
+| Chat input (multi-modal) | `ChatInputComponent` |
+| Feedback bar | `FeedbackComponent` |
+| AI error display | `AiErrorComponent` |
+| Tool call visualization | `ToolCallCardComponent` |
 
 ## Quick Start
 
-See `reference/quick-start.md` for entry-point wiring (Angular `ChatComponent` + Flutter `ChatScreen`).
+See `reference/quick-start.md` for entry-point wiring (Angular `ChatComponent`).
 
 ## Key Patterns (brief — details in reference files)
 
@@ -59,14 +58,8 @@ See `reference/quick-start.md` for entry-point wiring (Angular `ChatComponent` +
 - `computed()` signal to derive rendered markdown — prevents re-parsing on every chunk
 - `aria-live="polite"` wraps the message list
 
-### Streaming (Flutter)
-- `AsyncNotifier` with `Stream.listen` updates `state` incrementally
-- `ScrollController` + `addPostFrameCallback` for auto-scroll after frame
-- Check `MediaQuery.of(context).disableAnimations` before scroll animations
-
 ### Token Context
-- Angular: `TokenIndicatorComponent` uses daisyUI `progress` + `text-warning`/`text-error` classes at 80%/100% thresholds
-- Flutter: `LinearProgressIndicator` with `colorScheme.error` / `colorScheme.tertiary`
+- `TokenIndicatorComponent` uses daisyUI `progress` + `text-warning`/`text-error` classes at 80%/100% thresholds
 - Always display "~N messages remaining" not raw token numbers
 
 ### AI Errors
@@ -74,23 +67,21 @@ See `reference/quick-start.md` for entry-point wiring (Angular `ChatComponent` +
 - NEVER swallow AI errors silently — always show user-visible feedback with an action
 
 ### Feedback
-- Angular: `signal<'up'|'down'|null>` tracks selected thumb; regenerate re-emits prompt
-- Flutter: `HapticFeedback.lightImpact()` on thumb press; `colorScheme.primary` for active state
+- `signal<'up'|'down'|null>` tracks selected thumb; regenerate re-emits prompt
 
 ### Multi-Modal Input
-- Angular: Angular CDK drag-drop for file zone; `Enter` sends, `Shift+Enter` newlines
-- Flutter: `image_picker` for attachments; `maxLines: null` for auto-expanding TextField
+- Angular CDK drag-drop for file zone; `Enter` sends, `Shift+Enter` newlines
 
 ## Reference Files
 
 | File | Contents |
 |------|----------|
-| `reference/quick-start.md` | Entry-point wiring for Angular ChatComponent and Flutter ChatScreen |
+| `reference/quick-start.md` | Entry-point wiring for Angular ChatComponent |
 | `reference/streaming-patterns.md` | Streaming UX, auto-scroll, memoization, stop controls |
 | `reference/context-management.md` | Token indicator, threshold logic, summarization trigger |
 | `reference/ai-error-handling.md` | Refusal, rate limit, context exceeded, timeout, hallucination flag |
-| `reference/feedback-loops.md` | Thumbs up/down, copy, regenerate — Angular & Flutter |
-| `reference/multimodal-input.md` | File attach, preview chips, auto-expand textarea/field |
+| `reference/feedback-loops.md` | Thumbs up/down, copy, regenerate — Angular |
+| `reference/multimodal-input.md` | File attach, preview chips, auto-expand textarea |
 
 ## Anti-Patterns — Hard Prohibitions
 
@@ -98,11 +89,9 @@ See `reference/quick-start.md` for entry-point wiring (Angular `ChatComponent` +
 - **NEVER** auto-scroll unconditionally — it steals user scroll position mid-read
 - **NEVER** display raw token counts to end users — use human-readable approximations
 - **NEVER** silently ignore AI error responses — every error must log + show user feedback
-- **NEVER** hardcode colors for error/warning states — use daisyUI tokens or `colorScheme`
+- **NEVER** hardcode colors for error/warning states — use daisyUI tokens
 - **NEVER** use constructor DI in Angular — use `inject()`
 - **NEVER** use `@Input()`/`@Output()` decorators — use `input()`, `output()`, `model()` signals
-- **NEVER** use raw `EdgeInsets` numeric literals in Flutter — use `AppSpacing` tokens
-- **NEVER** use `Color(0x...)` literals in Flutter — use `Theme.of(context).colorScheme`
 
 ## Post-Code Review
 
@@ -112,6 +101,5 @@ After implementation, dispatch these reviewer agents:
 |---------|-------|
 | Angular code quality | `code-reviewer` |
 | Accessibility (ARIA, keyboard nav) | `accessibility-auditor` |
-| Flutter/Riverpod patterns | `riverpod-reviewer` |
 | Security (file uploads, content rendering) | `security-reviewer` |
 | UI/UX consistency | `ui-standards-expert` |

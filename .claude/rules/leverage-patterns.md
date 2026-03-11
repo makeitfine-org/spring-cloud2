@@ -93,11 +93,9 @@ About to write or modify code?
     |
     +-- What technology? Match to skill:
     |   Java/Spring    -> java-spring-api
-    |   NestJS         -> nestjs-api
     |   Python/FastAPI  -> python-dev
     |   Agentic AI     -> agentic-ai-dev
     |   Angular        -> angular-spa
-    |   Flutter        -> flutter-mobile
     |   Database schema -> database-schema-designer
     |   Architecture   -> architecture-design
     |
@@ -118,8 +116,6 @@ Reviewer agents are dispatched AFTER code is written, not before. Match by domai
 | Signal in Changed Files | Reviewer Agent |
 |------------------------|----------------|
 | `*.java`, `pom.xml`, Spring annotations | `spring-reactive-reviewer` |
-| `*.ts` with NestJS decorators (`@Controller`, `@Injectable`) | `nestjs-reviewer` |
-| `*.dart`, `pubspec.yaml`, Riverpod providers | `riverpod-reviewer` |
 | LangChain/LangGraph imports, agent graphs | `agentic-ai-reviewer` |
 | SQL migrations, schema changes | `postgresql-database-reviewer` |
 | Any security-sensitive change (auth, crypto, input handling) | `security-reviewer` |
@@ -132,7 +128,7 @@ Reviewer agents are dispatched AFTER code is written, not before. Match by domai
 
 - Loading a skill after already writing code → patterns were missed, rewrite likely
 - Dispatching a reviewer for the wrong stack → shallow review, false confidence
-- Skipping skill load for "small changes" → small changes to Spring WebFlux or Riverpod still need the skill's patterns to avoid framework-specific traps
+- Skipping skill load for "small changes" → small changes to Spring WebFlux or Angular still need the skill's patterns to avoid framework-specific traps
 
 ## Adaptive Depth Levels
 

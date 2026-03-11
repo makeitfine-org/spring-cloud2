@@ -25,7 +25,7 @@ as concise rules to prevent recurrence. It is auto-loaded every session.
 - `Code Style` — formatting, comments, naming
 - `Communication` — how answers are structured
 - `Architecture` — structural decisions
-- `Tech:[stack]` — tech-specific (e.g. Tech:Flutter, Tech:NestJS)
+- `Tech:[stack]` — tech-specific (e.g. Tech:Java, Tech:Angular)
 
 ## Hygiene Rules
 

@@ -1,10 +1,10 @@
 ---
 name: design-system
-description: "Unified design system enforcement for Flutter and Angular. Routes all UI tasks through the correct stack-specific tokens, rules, and interaction contracts. Use when auditing UI compliance, reviewing design consistency, or building any user-facing surface."
+description: "Design system enforcement for Angular. Routes all UI tasks through the correct stack-specific tokens, rules, and interaction contracts. Use when auditing UI compliance, reviewing design consistency, or building any user-facing surface."
 allowed-tools: Read, Glob, Grep, Write, Edit
 metadata:
   triggers: design system, UI audit, design tokens, design review, design lint, visual consistency, theme compliance, design drift
-  related-skills: ui-standards-tokens, angular-spa, flutter-mobile, frontend-design, accessibility-auditor
+  related-skills: angular-spa, frontend-design, accessibility-auditor
   domain: frontend
   role: specialist
   scope: design
@@ -13,7 +13,7 @@ metadata:
 
 # Design System — Unified Routing Hub
 
-Single entry point for all design system enforcement across Flutter and Angular.
+Single entry point for all design system enforcement for Angular.
 
 **When to use:** Any UI task — building screens, reviewing components, auditing design drift, or running design lint.
 
@@ -23,17 +23,6 @@ Determine the stack from file context, then load the correct references:
 
 ```
 What are you working on?
-    |
-    +-- Flutter (lib/**/*.dart, pubspec.yaml)
-    |   |
-    |   +-- Tokens (colors, spacing, typography, radius)
-    |   |   → Read: .claude/skills/ui-standards-tokens/reference/ui-design-tokens.md
-    |   |
-    |   +-- Accessibility (semantics, focus, contrast)
-    |   |   → Read: .claude/skills/ui-standards-tokens/reference/ui-accessibility-patterns.md
-    |   |
-    |   +-- Polish (animations, glassmorphism, theme extensions)
-    |       → Read: .claude/skills/flutter-mobile/reference/flutter-design-polish.md
     |
     +-- Angular (src/app/**/*.ts|html|scss)
     |   |
@@ -49,7 +38,7 @@ What are you working on?
     |   +-- Animations (timing, keyframes, reduced motion)
     |       → Read: .claude/skills/angular-spa/reference/animations.md
     |
-    +-- Cross-stack (interaction contracts, visual direction)
+    +-- Cross-cutting (interaction contracts, visual direction)
         |
         +-- Surface/interaction contracts (modals, forms, lists, errors)
         |   → Read: .claude/skills/design-system/reference/interaction-contracts.md
@@ -63,32 +52,27 @@ What are you working on?
 These are non-negotiable. Violations are caught by hookify rules at write-time.
 
 ### Colors
-- **NEVER** hardcode hex values (`#3b82f6`, `Color(0xFF...)`)
+- **NEVER** hardcode hex values (`#3b82f6`)
 - **NEVER** use `rgb()`, `rgba()`, `hsl()`, `hsla()` literals
-- **Flutter:** Use `Theme.of(context).colorScheme.*`
 - **Angular:** Use daisyUI semantic tokens (`bg-primary`, `text-base-content`)
 
 ### Spacing
-- **NEVER** use raw numeric spacing (`EdgeInsets.all(16)`, `mt-3`)
-- **Flutter:** Use `AppSpacing.xs/sm/md/lg/xl/xxl`
+- **NEVER** use raw numeric spacing (`mt-3`)
 - **Angular:** Use Tailwind semantic scale or daisyUI component spacing
 
 ### Typography
-- **NEVER** use raw font sizes (`TextStyle(fontSize: 14)`, `text-[14px]`)
-- **Flutter:** Use `Theme.of(context).textTheme.*`
+- **NEVER** use raw font sizes (`text-[14px]`)
 - **Angular:** Use Tailwind typography scale (`text-sm`, `text-lg`, `text-xl`)
 
 ### Forms
 - **NEVER** use bare `<input>`, `<select>`, `<textarea>` without framework bindings
 - **Angular:** Use daisyUI form classes + reactive form `formControlName`
-- **Flutter:** Use shared form field wrapper widgets
 
 ### Touch Targets
-- **Minimum 48dp** (Flutter) / **44px** (Angular) for all interactive elements
+- **Minimum 44px** for all interactive elements
 
 ### Inline Styles
 - **NEVER** use `style="..."` in Angular templates — use Tailwind utilities or SCSS
-- **NEVER** use inline `Style` widgets in Flutter — use theme extensions
 
 ## Machine Enforcement
 
@@ -96,9 +80,6 @@ These are non-negotiable. Violations are caught by hookify rules at write-time.
 
 | Rule | Stack | What It Catches |
 |------|-------|-----------------|
-| `hookify.design-no-hardcoded-colors-dart` | Flutter | `Color(0xFF...)`, `Colors.blue` |
-| `hookify.design-no-raw-spacing-dart` | Flutter | `EdgeInsets.all(16)`, `SizedBox(height: 8)` |
-| `hookify.design-no-raw-textstyle-dart` | Flutter | `TextStyle(fontSize: N)` |
 | `hookify.design-no-hex-angular` | Angular | `bg-[#...]`, `color: #...`, `rgb()`, `hsl()` |
 | `hookify.design-no-raw-spacing-angular` | Angular | `mt-3`, `px-4`, `gap-2` |
 | `hookify.design-no-raw-typography-angular` | Angular | `text-[14px]`, `font-[...]`, `font-size: N` |
@@ -110,20 +91,19 @@ All rules respect `// ignore-design: [reason]` exception markers.
 
 | Command | Scope |
 |---------|-------|
-| `/lint-design-system` | Orchestrator — runs all checks for detected stack(s) |
-| `dart analyze` | Flutter static analysis |
+| `/lint-design-system` | Orchestrator — runs all checks for Angular |
 | `ng lint` | Angular static analysis |
 
 ### Quality Gate
 
 Before declaring any UI work done, these must pass (from `verification-and-reporting.md`):
 
-- [ ] No hardcoded colors — all colors use theme tokens
-- [ ] No raw spacing values — all spacing uses semantic tokens
-- [ ] No inline TextStyles — all typography uses theme text styles
-- [ ] Touch targets >= 48dp (Flutter) / 44px (Angular)
+- [ ] No hardcoded colors — all colors use daisyUI semantic tokens
+- [ ] No raw spacing values — all spacing uses Tailwind semantic scale
+- [ ] No raw font sizes — all typography uses Tailwind scale
+- [ ] Touch targets >= 44px for all interactive elements
 - [ ] `/lint-design-system` run with zero violations
-- [ ] Exception markers (`// ignore-design: [reason]`) reviewed and justified
+- [ ] Exception markers (`<!-- ignore-design: [reason] -->`) reviewed and justified
 
 ## Exception Policy
 
@@ -141,7 +121,7 @@ When a design rule must be violated intentionally:
 
 | Surface | Status | Rationale |
 |---------|--------|-----------|
-| **Logged-in app screens** (Flutter + Angular) | ENFORCED | Primary user experience — consistency here drives retention and trust |
+| **Logged-in app screens** (Angular) | ENFORCED | Primary user experience — consistency here drives retention and trust |
 | **Shared/reusable components** | ENFORCED | Foundation — drift here cascades everywhere |
 | **Theme definitions** | ENFORCED | Single source of truth for tokens |
 
@@ -153,11 +133,9 @@ When a design rule must be violated intentionally:
 | **Legacy/migration pages** | DEFERRED | Will be replaced — enforce on new version only |
 | **Marketing / landing pages** | DEFERRED | Often need custom creative direction that conflicts with app tokens |
 | **Test files** | EXCLUDED | Test code can use raw values for assertion clarity |
-| **Generated code** (`*.g.dart`, `*.freezed.dart`) | EXCLUDED | Machine-generated — not human-authored |
 
 ### File Path Scope
 
 | Stack | Included | Excluded |
 |-------|----------|----------|
-| Flutter | `lib/` | `test/`, `*.g.dart`, `*.freezed.dart`, build output |
-| Angular | `src/app/` | `node_modules/`, `*.spec.ts`, config files |
+| Angular | `src/app/` | `node_modules/`, `*.spec.ts`, config files, build output |

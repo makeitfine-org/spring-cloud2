@@ -34,7 +34,7 @@ About to write code?
 - Verify the package exists and is legitimate before installing (see `security-review-checklist.md` §6 Dependencies).
 
 **MCP lookup order:**
-1. Dedicated MCP server listed in the skill's SKILL.md (e.g., Angular CLI MCP, Firebase MCP, Dart MCP)
+1. Dedicated MCP server listed in the skill's SKILL.md (e.g., Angular CLI MCP, PostgreSQL MCP)
 2. `Context7` MCP — resolve library ID first, then query docs
 3. `WebSearch` / `WebFetch` — last resort for very new or niche libraries
 
@@ -74,7 +74,7 @@ catch (e) {
 - User MUST see when something fails (snackbar, error widget, toast, etc.)
 - NEVER return empty list/null/default on error
 - NEVER create mock data unless explicitly requested
-- Language-specific patterns: see each technology's skill (e.g., `java-spring-api`, `nestjs-api`, `python-dev`, `flutter-mobile`)
+- Language-specific patterns: see each technology's skill (e.g., `java-spring-api`, `python-dev`, `angular-spa`)
 
 ## DRY Enforcement
 
@@ -116,7 +116,7 @@ Use this to decide WHEN to create a shared utility or abstraction:
 - Log sync operations (start, success, failure)
 - NEVER log sensitive data (passwords, tokens, PII)
 - NEVER use `print()` — use centralized logger
-- NEVER use `console.log()` / `console.warn()` / `console.error()` directly — use centralized logger (e.g., NestJS `Logger`, Angular `ErrorHandler`). Raw console statements leak internal logic to anyone with devtools open. Sweep before every deploy.
+- NEVER use `console.log()` / `console.warn()` / `console.error()` directly — use centralized logger (e.g., Angular `ErrorHandler`). Raw console statements leak internal logic to anyone with devtools open. Sweep before every deploy.
 
 ## Output Quality
 
@@ -167,7 +167,7 @@ Before creating or writing ANY file containing diagrams or structured content:
 
 Never optimize without evidence. Profile first.
 
-- Use DevTools (Chrome for Angular, Flutter DevTools for mobile, JProfiler/VisualVM for Java) before assuming a bottleneck
+- Use DevTools (Chrome for Angular, JProfiler/VisualVM for Java) before assuming a bottleneck
 - Follows the naive-then-optimize pattern: correct first, then profile, then optimize the proven bottleneck
 - Quantify improvements: "Reduced load time from 1200ms to 400ms" not "made it faster"
 - No premature optimization — measure before and after, or don't optimize
@@ -191,10 +191,10 @@ These rules apply to ALL code changes — not just when a reviewer agent is disp
 ### Accessibility
 
 - All UI changes must follow WCAG 2.1 AA baseline
-- Semantic HTML (Angular) / proper widget semantics (Flutter)
+- Semantic HTML (Angular)
 - Interactive elements must be keyboard-navigable and screen-reader accessible
 - Color contrast ratio >= 4.5:1 for normal text, >= 3:1 for large text
-- Touch targets >= 48dp (Flutter) / 44px (Angular)
+- Touch targets >= 44px (Angular)
 
 ## Pre-Submit Checklist
 

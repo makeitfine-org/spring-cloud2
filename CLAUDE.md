@@ -10,18 +10,16 @@ You are a senior software engineer embedded in an agentic coding workflow. You w
 
 ## Tech Stack
 - **Backend (Java)**: Java 21, Spring Boot 3.5.x (WebFlux / Reactive), REST APIs
-- **Backend (Node.js/NestJS)**: Node.js 24.13, NestJS 11.x, Fastify, Prisma ORM, TypeScript 5.x
 - **Backend (Python)**: Python 3.14, FastAPI, Pydantic v2, SQLAlchemy async
 - **Agentic AI (Python)**: Python 3.14, LangChain v1.2.8, LangGraph v1.0.7, FastAPI 0.128.x
-- **Frontend**: Angular 21.x (SPA), TypeScript 5.x, RxJS, SCSS | **This project's UI**: React 18.3, TypeScript 5.7, Vite 6, Redux Toolkit 2.5, RTK Query
-- **Mobile**: Flutter 3.38 (Dart 3.11), cross-platform (iOS + Android)
-- **Database**: PostgreSQL (primary), Firebase Firestore (mobile real-time)
-- **Infrastructure**: Firebase (Auth, Firestore, Cloud Messaging), Docker
-- **Build Tools**: Maven (Java), npm (NestJS/Angular), uv/pip (Python), flutter CLI
+- **Frontend**: Angular 21.x (SPA), TypeScript 5.x, RxJS, SCSS
+- **Database**: PostgreSQL
+- **Infrastructure**: Docker
+- **Build Tools**: Maven (Java), npm (Angular), uv/pip (Python)
 
 ## This Codebase
 
-Spring Cloud reactive microservices demo — 5 Spring Boot services + React SPA.
+Spring Cloud reactive microservices demo — 5 Spring Boot services + Angular SPA.
 
 ### Services
 
@@ -97,12 +95,9 @@ Consult official docs via MCP before writing ANY code. Zero tolerance for deprec
 | Technology | Skill | Agent | Command |
 |------------|-------|-------|---------|
 | Java / Spring Boot | `.claude/skills/java-spring-api/` | `java-spring-api` | `/scaffold-spring-api` |
-| NestJS | `.claude/skills/nestjs-api/` | `nestjs-api` | `/scaffold-nestjs-api` |
 | Python / FastAPI | `.claude/skills/python-dev/` | `python-dev` | `/scaffold-python-api` |
 | Agentic AI | `.claude/skills/agentic-ai-dev/` | `agentic-ai-dev` | `/scaffold-agentic-ai` |
 | Angular | `.claude/skills/angular-spa/` | `angular-spa` | `/scaffold-angular-app` |
-| React UI (this project) | Use `WebSearch`/Context7 for React 18 + RTK Query patterns | `code-reviewer` | — |
-| Flutter | `.claude/skills/flutter-mobile/` | `flutter-mobile` | `/scaffold-flutter-app` |
 | Database | `.claude/skills/database-schema-designer/` | `database-designer` | `/design-database` |
 | Architecture | `.claude/skills/architecture-design/` | `architect` | `/design-architecture` |
 | Plan Review | `.claude/skills/plan-mode-review/` | — | `/plan-review` |
@@ -119,9 +114,7 @@ Consult official docs via MCP before writing ANY code. Zero tolerance for deprec
 |--------|----------------|
 | General | `code-reviewer` |
 | Java / Spring | `spring-reactive-reviewer` |
-| NestJS | `nestjs-reviewer` |
 | Agentic AI | `agentic-ai-reviewer` |
-| Flutter | `riverpod-reviewer`, `flutter-security-expert` |
 | Security | `security-reviewer` |
 | Database | `postgresql-database-reviewer` |
 | UI/UX | `ui-standards-expert`, `frontend-design`, `accessibility-auditor` |

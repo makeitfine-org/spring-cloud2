@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /home/eug/dev/projects/my/spring-cloud2 -type d -name \"model\" -o -type d -name \"dto\" | xargs ls -la 2>/dev/null)",
+      "Skill(angular-spa)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "postgres"
+  ],
+  "enabledPlugins": {
+    "claude-mem@thedotmack": true
+  },
+  "enableAllProjectMcpServers": true
+}

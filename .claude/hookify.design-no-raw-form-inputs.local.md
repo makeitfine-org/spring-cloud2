@@ -18,5 +18,4 @@ Raw form input detected without reactive form binding. Use daisyUI form componen
 - `<input class="input input-bordered" formControlName="...">` not bare `<input>`
 - `<select class="select select-bordered" formControlName="...">` not bare `<select>`
 - Wrap in `<label class="form-control">` for consistent spacing and labels
-- For Flutter: use shared form field wrapper widgets, not raw `TextFormField`
 Reference: .claude/skills/angular-spa/reference/angular-conventions.md

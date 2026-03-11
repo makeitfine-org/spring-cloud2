@@ -2,7 +2,7 @@
 
 > Complete skill catalog for Claude Code Onboarding Kit. Use this to find the right skill for any task.
 >
-> 39 skills across 7 domains. Each skill is loaded with `/skill-name` or via `Skill` tool.
+> 34 skills across 7 domains. Each skill is loaded with `/skill-name` or via `Skill` tool.
 >
 > **Lazy-load pattern:** Each SKILL.md is a routing document only. Detailed patterns live in `reference/` files within each skill directory. Load the reference file explicitly when the detail is needed — do not expect it to be loaded automatically.
 
@@ -10,23 +10,18 @@
 
 ## Quick Reference by Domain
 
-### Backend (8 skills)
+### Backend (6 skills)
 - **agentic-ai-coding-standard**: Provides coding standards for Python agentic AI services with LangChain/LangGraph, covering state management, tool definitions, graph structure, error handling, and observability.
 - **agentic-ai-dev**: Provides patterns and templates for building production AI agents with Python 3.14, LangChain v1.2.8, LangGraph v1.0.7, and FastAPI 0.128.x.
 - **java-coding-standard**: Activated when reviewing Java code or enforcing coding standards in Spring Boot services, covering naming conventions, immutability patterns, Optional usage, streams, and exception handling.
 - **java-spring-api**: Provides patterns and templates for Java 21 Spring Boot 3.5.x WebFlux REST API development, activated when creating controllers, services, repositories, DTOs, or reactive tests.
 - **mcp-builder**: Used when building MCP (Model Context Protocol) servers to integrate external APIs or services, providing guides for Python (FastMCP) and Node/TypeScript (MCP SDK) implementations.
-- **nestjs-api**: Provides patterns and templates for NestJS 11.x with Fastify, Prisma ORM, and TypeScript 5.x development, activated when creating modules, controllers, services, DTOs, guards, interceptors, or tests.
-- **nestjs-coding-standard**: Activated when reviewing NestJS/TypeScript code or enforcing coding standards in NestJS 11.x services, covering naming conventions, TypeScript strictness, DTO patterns, and module organization.
 - **python-dev**: Provides patterns and templates for Python 3.14 development with FastAPI and modern tooling, activated when creating Python APIs, scripts, data processing pipelines, or pytest tests.
 
-### Frontend (6 skills)
-- **ai-chat**: AI chat interface patterns for Angular 21.x and Flutter 3.38 — streaming markdown rendering, auto-scroll heuristics, memoized computed(), token context indicators, thumbs up/down feedback, multi-modal input, and AI error states.
+### Frontend (3 skills)
+- **ai-chat**: AI chat interface patterns for Angular 21.x — streaming markdown rendering, auto-scroll heuristics, memoized computed(), token context indicators, thumbs up/down feedback, multi-modal input, and AI error states.
 - **angular-spa**: Angular 21.x SPA development skill with TailwindCSS 4.x and daisyUI 5.5.5, covering component scaffolding, UI/UX design, accessibility audits, and design systems.
-- **flutter-mobile**: Provides patterns and templates for Flutter 3.38 / Dart 3.11 cross-platform mobile development, activated when building Flutter screens, Riverpod providers, Freezed models, or widget tests. Reference files: `mfri-scoring.md` (risk scoring before any UI implementation), `flutter-templates.md`, `flutter-architecture-patterns.md`, `flutter-performance-ux.md`, `flutter-design-polish.md`, `accessibility-audit-checklist.md`, `flutter-security-hardening.md`.
 - **frontend-design**: Creative frontend design skill providing visual design principles, typography and color guidance, motion patterns, and anti-patterns for building distinctive production-grade UIs.
-- **riverpod-patterns**: Provides Riverpod state management patterns and best practices for Flutter applications, covering providers, AsyncValue handling, ref usage, and provider lifecycle management.
-- **ui-standards-tokens**: Provides design token definitions, theming patterns, and UI standards for Flutter applications, used when auditing UI compliance, implementing design systems, or ensuring consistent token usage.
 
 ### API & Architecture (6 skills)
 - **architecture-decision-records**: Used when documenting significant technical decisions, reviewing past architectural choices, or establishing decision processes; provides ADR templates and best practices.
@@ -75,28 +70,15 @@
 4. **database-schema-designer** — Design schema for new entities
 5. **code-reviewer** — Final quality and security review
 
-### New NestJS API Feature
-1. **nestjs-api** — Scaffold module, controller, service, DTOs, Prisma queries
-2. **nestjs-coding-standard** — Enforce TypeScript strictness, DTO patterns
-3. **openapi-spec-generation** — Generate API spec
-4. **database-schema-designer** — Design Prisma schema
-5. **code-reviewer** — Final review
-
-### Flutter Mobile Feature
-1. **flutter-mobile** — Build screens, Riverpod providers, Freezed models
-2. **riverpod-patterns** — Review provider types, AsyncValue, ref usage
-3. **ui-standards-tokens** — Audit design token compliance
-4. **code-reviewer** — Final quality review
-
 ### Angular SPA Feature
 1. **angular-spa** — Build standalone components, services, routes with TailwindCSS
 2. **frontend-design** — Apply visual design principles
 3. **browser-testing** — E2E test the new flow
 4. **code-reviewer** — Final review
 
-### AI Chat UI Feature (Angular or Flutter)
+### AI Chat UI Feature (Angular)
 1. **ai-chat** — Streaming messages, auto-scroll, token indicator, feedback, error states
-2. **angular-spa** or **flutter-mobile** — Platform-specific component patterns
+2. **angular-spa** — Angular component patterns
 3. **security-reviewer** — File upload, innerHTML rendering, token exposure
 
 ### AI Agent Development
@@ -125,12 +107,10 @@
 
 ### What am I building?
 - **Java REST API / reactive service** -> java-spring-api
-- **NestJS REST API / TypeScript service** -> nestjs-api
 - **Python FastAPI service** -> python-dev
 - **AI agent or RAG pipeline** -> agentic-ai-dev
 - **AI chat UI (streaming, copilot, chatbot)** -> ai-chat
 - **Angular SPA** -> angular-spa
-- **Flutter mobile app (iOS/Android)** -> flutter-mobile
 - **MCP server integration** -> mcp-builder
 - **Database schema** -> database-schema-designer
 
@@ -185,17 +165,11 @@
 ### Full Java API Feature
 java-spring-api + java-coding-standard + openapi-spec-generation + database-schema-designer + code-reviewer
 
-### Full NestJS API Feature
-nestjs-api + nestjs-coding-standard + openapi-spec-generation + database-schema-designer + code-reviewer
-
-### Flutter Mobile App
-flutter-mobile + riverpod-patterns + ui-standards-tokens + code-reviewer
-
 ### Angular SPA
-angular-spa + frontend-design + ui-standards-tokens + browser-testing
+angular-spa + frontend-design + browser-testing
 
-### AI Chat UI (Angular or Flutter)
-ai-chat + angular-spa (or flutter-mobile) + security-reviewer
+### AI Chat UI (Angular)
+ai-chat + angular-spa + security-reviewer
 
 ### PR Lifecycle (full loop)
 pr-review + iterate-pr + verification-before-completion
@@ -225,8 +199,6 @@ writing-skills + subagent-driven-development + plan-mode-review
 > Real scenarios mapped to skills.
 
 - "Build a Spring Boot REST API for user management" -> java-spring-api + java-coding-standard + openapi-spec-generation
-- "Add JWT auth to my NestJS service" -> nestjs-api + security-reviewer + nestjs-coding-standard
-- "Create a Flutter screen with Riverpod state" -> flutter-mobile + riverpod-patterns + ui-standards-tokens
 - "Build an Angular dashboard with charts" -> angular-spa + frontend-design + browser-testing
 - "Build a LangGraph RAG agent with FastAPI" -> agentic-ai-dev + agentic-ai-coding-standard + python-dev
 - "Design the database schema for a SaaS platform" -> database-schema-designer + architecture-design
@@ -234,11 +206,9 @@ writing-skills + subagent-driven-development + plan-mode-review
 - "Review this PR for security issues" -> code-reviewer + security-reviewer
 - "Fix all CI failures and address review comments" -> iterate-pr
 - "Build a streaming chat UI with Angular" -> ai-chat + angular-spa + security-reviewer
-- "Build a Flutter chat screen with streaming AI" -> ai-chat + flutter-mobile + riverpod-patterns
 - "Debug this NullPointerException in production" -> systematic-debugging + verification-before-completion
 - "Set up Semgrep rules for our Python codebase" -> sast-configuration + security-reviewer
 - "Generate OpenAPI spec from my Spring controllers" -> openapi-spec-generation + java-spring-api
-- "Write a README for our Flutter app" -> documentation-generation + flutter-mobile
 - "Generate release notes from our git history" -> changelog-generator
 - "Build an MCP server for our internal Jira API" -> mcp-builder + python-dev
 - "Model threats for our new auth microservice" -> threat-modeling + security-reviewer + architecture-design
@@ -265,26 +235,21 @@ writing-skills + subagent-driven-development + plan-mode-review
 | dedup-code-agent | quality | specialist | analysis | report |
 | documentation-generation | workflow | specialist | design | document |
 | domain-finder | workflow | specialist | analysis | report |
-| flutter-mobile | frontend | specialist | implementation | code |
 | frontend-design | frontend | specialist | design | code |
 | java-coding-standard | backend | specialist | review | report |
 | java-spring-api | backend | specialist | implementation | code |
 | mcp-builder | backend | specialist | implementation | code |
-| nestjs-api | backend | specialist | implementation | code |
-| nestjs-coding-standard | backend | specialist | review | report |
 | openapi-spec-generation | api-architecture | specialist | design | specification |
 | plan-mode-review | workflow | architect | review | report |
 | pr-review | quality | specialist | review | report |
 | python-dev | backend | specialist | implementation | code |
 | receiving-code-review | workflow | specialist | review | document |
-| riverpod-patterns | frontend | specialist | implementation | code |
 | sast-configuration | security | specialist | infrastructure | document |
 | security-reviewer | security | specialist | review | report |
 | subagent-driven-development | workflow | architect | design | document |
 | systematic-debugging | quality | specialist | analysis | analysis |
 | test-driven-development | quality | specialist | testing | code |
 | threat-modeling | security | architect | design | document |
-| ui-standards-tokens | frontend | specialist | design | document |
 | verification-before-completion | workflow | specialist | review | report |
 | writing-skills | workflow | specialist | design | document |
 | the-fool | workflow | expert | review | report |
