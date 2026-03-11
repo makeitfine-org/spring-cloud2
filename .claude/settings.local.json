@@ -3,6 +3,8 @@
     "allow": [
       "Bash(mvn *)",
       "Bash(docker *)",
+      "Bash(git status *)",
+      "Bash(npm *)",
       "Bash(tree -L 3 -I 'target|.git|.idea' /home/eug/dev/projects/my/spring-cloud2 2>/dev/null || find /home/eug/dev/projects/my/spring-cloud2 -not -path '*/target/*' -not -path '*/.git/*' -not -path '*/.idea/*' -type d | head -50 | sort)",
       "Bash(ls -la /home/eug/dev/projects/my/spring-cloud2/*.md 2>/dev/null | head -20)",
       "Bash(find /home/eug/dev/projects/my/spring-cloud2 -name \"schema.sql\" | xargs -I{} sh -c 'echo \"=== {} ===\"; cat {}')",
@@ -54,6 +56,17 @@
       "Bash(git check-ignore -v .claude/settings.local.json)",
       "Bash(find /home/eug/dev/projects/my/spring-cloud2/inventory-service/target/surefire-reports -name \"*.txt\" | xargs ls -t | head -5)",
       "Bash(git commit -m \"$\\(cat <<'EOF'\ntest: add fast tests \\(embedded Kafka + H2\\) and split IT phase\n\n- Add *FastTest classes per service using @EmbeddedKafka + H2 in-memory\n- Add schema-h2.sql and application-fast.yml per service\n- Rename *IntegrationTest → *IT for Failsafe \\(mvn verify\\)\n- Add maven-surefire-plugin \\(excludes *IT\\) and maven-failsafe-plugin\n- Add spring-kafka-test, r2dbc-h2, h2 test deps to service pom files\nEOF\n\\)\")"
+    ],
+    "deny": [
+      "Bash(sudo *)",
+      "Read(./.env)"
+    ],
+    "ask": [
+      "Bash(rm *)",
+      "Bash(curl *)"
     ]
+  },
+  "enabledPlugins": {
+    "code-review@claude-plugins-official": true
   }
 }
