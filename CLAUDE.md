@@ -13,11 +13,50 @@ You are a senior software engineer embedded in an agentic coding workflow. You w
 - **Backend (Node.js/NestJS)**: Node.js 24.13, NestJS 11.x, Fastify, Prisma ORM, TypeScript 5.x
 - **Backend (Python)**: Python 3.14, FastAPI, Pydantic v2, SQLAlchemy async
 - **Agentic AI (Python)**: Python 3.14, LangChain v1.2.8, LangGraph v1.0.7, FastAPI 0.128.x
-- **Frontend**: Angular 21.x (SPA), TypeScript 5.x, RxJS, SCSS
+- **Frontend**: Angular 21.x (SPA), TypeScript 5.x, RxJS, SCSS | **This project's UI**: React 18.3, TypeScript 5.7, Vite 6, Redux Toolkit 2.5, RTK Query
 - **Mobile**: Flutter 3.38 (Dart 3.11), cross-platform (iOS + Android)
 - **Database**: PostgreSQL (primary), Firebase Firestore (mobile real-time)
 - **Infrastructure**: Firebase (Auth, Firestore, Cloud Messaging), Docker
 - **Build Tools**: Maven (Java), npm (NestJS/Angular), uv/pip (Python), flutter CLI
+
+## This Codebase
+
+Spring Cloud reactive microservices demo — 5 Spring Boot services + React SPA.
+
+### Services
+
+| Service | Port | Package suffix | Role |
+|---------|------|----------------|------|
+| discovery-server | 8761 | (root) | Eureka registry |
+| api-gateway | 8080 | `.gateway` | Spring Cloud Gateway + circuit breakers |
+| order-service | 8081 | `.order` | Order lifecycle, saga coordinator |
+| inventory-service | 8082 | `.inventory` | Stock reservation (atomic SQL UPDATE) |
+| delivery-service | 8083 | `.delivery` | Delivery scheduling |
+
+All packages under: `reacty.probe.one.inventory.<suffix>`
+
+### Kafka Saga (Choreography)
+
+| Topic | Producer | Consumer(s) |
+|-------|----------|------------|
+| `order-created` | order-service | inventory-service |
+| `inventory-reserved` | inventory-service | order-service, delivery-service |
+| `inventory-failed` | inventory-service | order-service |
+| `delivery-scheduled` | delivery-service | order-service |
+
+**Order status flow:** `PENDING` → `INVENTORY_RESERVED` → `CONFIRMED` (happy path) | `CANCELLED` (stock insufficient)
+
+### Databases (PostgreSQL, per-service)
+
+| DB | Port | Used by |
+|----|------|---------|
+| orderdb | 5432 | order-service |
+| inventorydb | 5433 | inventory-service |
+| deliverydb | 5434 | delivery-service |
+
+**MCP tools available:** `mcp__postgres-delivery__query`, `mcp__postgres-inventory__query` — use for live DB inspection.
+
+Pre-seeded inventory: `prod-1: 100`, `prod-2: 50`, `prod-3: 200`
 
 ## Pre-Task Checklist
 
@@ -62,6 +101,7 @@ Consult official docs via MCP before writing ANY code. Zero tolerance for deprec
 | Python / FastAPI | `.claude/skills/python-dev/` | `python-dev` | `/scaffold-python-api` |
 | Agentic AI | `.claude/skills/agentic-ai-dev/` | `agentic-ai-dev` | `/scaffold-agentic-ai` |
 | Angular | `.claude/skills/angular-spa/` | `angular-spa` | `/scaffold-angular-app` |
+| React UI (this project) | Use `WebSearch`/Context7 for React 18 + RTK Query patterns | `code-reviewer` | — |
 | Flutter | `.claude/skills/flutter-mobile/` | `flutter-mobile` | `/scaffold-flutter-app` |
 | Database | `.claude/skills/database-schema-designer/` | `database-designer` | `/design-database` |
 | Architecture | `.claude/skills/architecture-design/` | `architect` | `/design-architecture` |
@@ -93,8 +133,24 @@ Consult official docs via MCP before writing ANY code. Zero tolerance for deprec
 
 ```bash
 # Docker (cross-cutting)
-docker-compose up -d                 # Start all services
-docker-compose down                  # Stop all services
+docker-compose up -d                          # Start full stack (infra + all services)
+docker-compose down                           # Stop all services
+docker-compose up -d zookeeper kafka postgres-order postgres-inventory postgres-delivery  # Infra only (for local dev)
+docker-compose -f docker-compose-debug.yml up -d  # Start with JDWP debug ports (5005-5009)
+
+# Maven — build & test
+mvn clean install -DskipTests                 # Build all modules, skip tests
+mvn clean verify                              # Build + run unit AND integration tests
+mvn test                                      # Unit tests only (excludes *IT.java)
+mvn test -pl order-service                    # Single module unit tests
+mvn verify -pl order-service                  # Single module with integration tests
+mvn clean verify -pl order-service,inventory-service  # Multiple modules
+
+# Frontend (ui/)
+cd ui && npm install                          # Install dependencies
+cd ui && npm run dev                          # Dev server on :3000 (proxies /api → :8080)
+cd ui && npm test                             # Vitest unit tests (22 tests)
+cd ui && npm run build                        # Production build → dist/
 ```
 ## Task Management
 
