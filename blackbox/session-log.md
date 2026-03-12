@@ -187,3 +187,34 @@
 - .claude/settings.json
 - blackbox/session-log.md
 <!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-12T11:21:02Z -->
+- .claude/hookify/core/__pycache__/__init__.cpython-312.pyc
+- .claude/hookify/core/__pycache__/config_loader.cpython-312.pyc
+- .claude/hookify/core/__pycache__/rule_engine.cpython-312.pyc
+- .claude/settings.local.json
+<!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-12T12:11:14Z -->
+- .claude/hookify/core/__pycache__/__init__.cpython-312.pyc
+- .claude/hookify/core/__pycache__/config_loader.cpython-312.pyc
+- .claude/hookify/core/__pycache__/rule_engine.cpython-312.pyc
+- .claude/settings.local.json
+- blackbox/session-log.md
+<!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-12T14:01:03Z -->
+- .claude/hookify/core/__pycache__/__init__.cpython-312.pyc
+- .claude/hookify/core/__pycache__/config_loader.cpython-312.pyc
+- .claude/hookify/core/__pycache__/rule_engine.cpython-312.pyc
+- .claude/settings.local.json
+- blackbox/session-log.md
+<!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-12T15:08:34Z -->
+- .claude/hookify/core/__pycache__/__init__.cpython-312.pyc
+- .claude/hookify/core/__pycache__/config_loader.cpython-312.pyc
+- .claude/hookify/core/__pycache__/rule_engine.cpython-312.pyc
+- .claude/settings.local.json
+- blackbox/session-log.md
+<!-- end-snapshot -->
