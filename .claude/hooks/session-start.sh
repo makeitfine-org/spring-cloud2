@@ -22,11 +22,9 @@ BEFORE any other action — run these steps:
 
 Skill loading (before writing any code):
   Java          → java-spring-api skill
-  NestJS        → nestjs-api skill
   Python/FastAPI → python-dev skill
   Agentic AI    → agentic-ai-dev skill
   Angular       → angular-spa skill
-  Flutter       → flutter-mobile skill
   Debugging     → systematic-debugging skill
   Completion    → verification-before-completion skill
   (Full table: CLAUDE.md → Code Conventions)

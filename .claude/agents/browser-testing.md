@@ -8,6 +8,7 @@ memory: project
 skills:
   - browser-testing
 color: yellow
+maxTurns: 50
 ---
 
 # Browser Testing Agent

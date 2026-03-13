@@ -9,6 +9,7 @@ skills:
   - java-spring-api
   - java-coding-standard
 color: blue
+maxTurns: 30
 ---
 
 # Spring Reactive Code Reviewer

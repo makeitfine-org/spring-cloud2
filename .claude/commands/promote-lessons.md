@@ -1,6 +1,7 @@
 ---
 description: Promote mature lessons to rules, consolidate agent-memory orphans, and prune stale entries. Run periodically or at session end.
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep
+disable-model-invocation: true
 ---
 
 # Promote Lessons

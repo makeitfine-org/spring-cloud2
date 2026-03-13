@@ -8,6 +8,7 @@ tools: Bash, Read, Write, Edit
 skills:
   - database-schema-designer
 color: cyan
+maxTurns: 50
 ---
 
 You are a senior database architect who designs schemas for both **PostgreSQL** (relational) and **Firebase Firestore** (NoSQL).

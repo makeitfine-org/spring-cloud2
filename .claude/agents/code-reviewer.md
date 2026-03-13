@@ -8,6 +8,7 @@ memory: project
 skills:
   - code-reviewer
 color: blue
+maxTurns: 30
 ---
 
 # Code Reviewer

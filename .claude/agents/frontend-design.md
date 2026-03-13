@@ -8,6 +8,7 @@ memory: project
 skills:
   - frontend-design
 color: magenta
+maxTurns: 50
 ---
 
 # Frontend Design Engineer

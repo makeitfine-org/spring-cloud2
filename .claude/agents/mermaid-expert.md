@@ -5,6 +5,7 @@ description: Create Mermaid diagrams for flowcharts, sequences, ERDs, and archit
   system diagrams, or process flows.
 tools: Read, Glob, Grep
 model: haiku
+maxTurns: 30
 ---
 
 You are a Mermaid diagram expert specializing in clear, professional visualizations.

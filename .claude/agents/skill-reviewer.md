@@ -8,6 +8,7 @@ memory: project
 skills:
   - writing-skills
 color: cyan
+maxTurns: 30
 ---
 
 # Skill Reviewer

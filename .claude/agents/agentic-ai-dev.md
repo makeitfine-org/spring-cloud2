@@ -9,6 +9,7 @@ skills:
   - agentic-ai-dev
   - agentic-ai-coding-standard
 color: green
+maxTurns: 50
 ---
 
 # Agentic AI Developer

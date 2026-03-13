@@ -6,6 +6,7 @@ model: haiku
 permissionMode: default
 memory: project
 color: orange
+maxTurns: 50
 ---
 
 # Deployment Engineer

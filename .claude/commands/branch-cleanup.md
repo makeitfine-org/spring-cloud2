@@ -1,6 +1,7 @@
 ---
 description: Clean up merged, stale, and orphaned git branches. Protects main/develop/release/* automatically. Supports --dry-run (preview only), --force (no confirmation), --remote-only, --local-only. Run after a sprint ends or before a release.
 allowed-tools: Bash, Read, Grep
+disable-model-invocation: true
 ---
 
 # Branch Cleanup

@@ -8,6 +8,7 @@ tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, mcp__context7__resolve-lib
 skills:
   - angular-spa
 color: green
+maxTurns: 50
 ---
 
 # Angular SPA Developer

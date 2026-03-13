@@ -9,6 +9,7 @@ skills:
   - design-system
   - ui-standards-tokens
 color: cyan
+maxTurns: 30
 ---
 
 # UI Standards Expert Agent

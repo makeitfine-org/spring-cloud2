@@ -8,6 +8,7 @@ memory: project
 skills:
   - threat-modeling
 color: red
+maxTurns: 20
 ---
 
 # Threat Modeling Expert

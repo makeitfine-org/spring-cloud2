@@ -6,6 +6,7 @@ model: sonnet
 permissionMode: default
 memory: project
 color: cyan
+maxTurns: 30
 ---
 
 # Comment Analyzer

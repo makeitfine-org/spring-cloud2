@@ -1,6 +1,7 @@
 ---
 description: Create a Hookify rule to prevent an unwanted behavior. Describe the behavior or leave blank to scan the conversation. Usage: /hookify [description of behavior to prevent]
 allowed-tools: Bash, Read, Write, Glob, AskUserQuestion
+disable-model-invocation: true
 ---
 
 # Hookify — Create Rule

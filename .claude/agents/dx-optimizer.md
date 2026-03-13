@@ -7,6 +7,7 @@ description: Developer Experience specialist. Improves tooling, setup automation
   review — use code-reviewer for that.
 model: sonnet
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep
+maxTurns: 50
 ---
 
 # DX Optimizer

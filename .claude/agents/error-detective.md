@@ -7,6 +7,7 @@ description: Runtime error investigation specialist. Analyzes logs, stack traces
   swallowed exceptions at write time — error-detective investigates after errors happen).
 model: sonnet
 allowed-tools: Read, Grep, Glob, Bash
+maxTurns: 50
 ---
 
 # Error Detective

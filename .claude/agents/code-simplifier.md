@@ -6,6 +6,7 @@ model: sonnet
 permissionMode: default
 memory: project
 color: yellow
+maxTurns: 30
 ---
 
 # Code Simplifier

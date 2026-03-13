@@ -8,6 +8,7 @@ memory: project
 skills:
   - security-reviewer
 color: red
+maxTurns: 30
 ---
 
 # Security Reviewer

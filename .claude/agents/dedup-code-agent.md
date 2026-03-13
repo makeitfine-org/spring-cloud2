@@ -8,6 +8,7 @@ memory: project
 skills:
   - dedup-code-agent
 color: yellow
+maxTurns: 30
 ---
 
 # Dedup Code Agent

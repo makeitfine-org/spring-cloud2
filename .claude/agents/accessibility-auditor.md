@@ -8,6 +8,7 @@ memory: project
 skills:
   - flutter-mobile
 color: cyan
+maxTurns: 30
 ---
 
 # Accessibility Auditor

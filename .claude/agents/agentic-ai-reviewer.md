@@ -8,6 +8,7 @@ memory: project
 skills:
   - agentic-ai-dev
 color: blue
+maxTurns: 30
 ---
 
 # Agentic AI Code Reviewer

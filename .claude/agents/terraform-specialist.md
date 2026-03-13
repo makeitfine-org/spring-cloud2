@@ -6,6 +6,7 @@ model: opus
 permissionMode: default
 memory: project
 color: purple
+maxTurns: 50
 ---
 
 # Terraform Specialist

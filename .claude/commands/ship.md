@@ -2,6 +2,7 @@
 name: ship
 description: Comprehensive pre-deployment readiness check across all stacks (Java/Spring, NestJS, Python/FastAPI, Angular, Flutter). Runs tests, linting, build, security audit, secrets scan, and migration checks. Outputs a Ship Readiness Report with READY TO SHIP / NOT READY verdict.
 allowed-tools: Bash, Read, Glob, Grep
+disable-model-invocation: true
 ---
 
 # Ship — Pre-Deploy Readiness Check

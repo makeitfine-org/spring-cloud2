@@ -8,6 +8,7 @@ memory: project
 skills:
   - database-schema-designer
 color: blue
+maxTurns: 30
 ---
 
 # Database Reviewer

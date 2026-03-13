@@ -218,3 +218,32 @@
 - .claude/settings.local.json
 - blackbox/session-log.md
 <!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-13T14:19:51Z -->
+- .claude/hookify/core/__pycache__/__init__.cpython-312.pyc
+- .claude/hookify/core/__pycache__/config_loader.cpython-312.pyc
+- .claude/hookify/core/__pycache__/rule_engine.cpython-312.pyc
+<!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-13T14:25:54Z -->
+- .claude/agents/accessibility-auditor.md
+- .claude/agents/agentic-ai-dev.md
+- .claude/agents/agentic-ai-reviewer.md
+- .claude/agents/angular-spa.md
+- .claude/agents/architect.md
+- .claude/agents/browser-testing.md
+- .claude/agents/code-reviewer.md
+- .claude/agents/code-simplifier.md
+- .claude/agents/comment-analyzer.md
+- .claude/agents/database-designer.md
+- .claude/agents/dedup-code-agent.md
+- .claude/agents/deployment-engineer.md
+- .claude/agents/dx-optimizer.md
+- .claude/agents/error-detective.md
+- .claude/agents/frontend-design.md
+- .claude/agents/java-spring-api.md
+- .claude/agents/mermaid-expert.md
+- .claude/agents/output-evaluator.md
+- .claude/agents/plan-challenger.md
+- .claude/agents/postgresql-database-reviewer.md
+<!-- end-snapshot -->

@@ -6,6 +6,7 @@ tools: Read, Grep, Glob, Bash
 permissionMode: default
 memory: project
 color: red
+maxTurns: 30
 ---
 
 # Silent Failure Hunter
