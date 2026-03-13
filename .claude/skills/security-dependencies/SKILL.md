@@ -1,5 +1,5 @@
 ---
-description: Multi-ecosystem dependency vulnerability scanner with SBOM generation and risk-weighted prioritization. Scans npm (NestJS/Angular), pip (Python), Maven (Java), pub.dev (Flutter). Outputs CycloneDX SBOM and prioritized CVE list.
+description: Multi-ecosystem dependency vulnerability scanner with SBOM generation and risk-weighted prioritization. Scans npm (Angular), pip (Python), Maven (Java). Outputs CycloneDX SBOM and prioritized CVE list.
 allowed-tools: Bash, Read, Glob, Grep
 disable-model-invocation: true
 ---

@@ -1,5 +1,5 @@
 ---
-description: Add a new feature end-to-end across backend API, Angular UI, and/or Flutter mobile
+description: Add a new feature end-to-end across backend API and Angular UI
 argument-hint: "[feature description]"
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---

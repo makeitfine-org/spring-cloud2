@@ -247,3 +247,47 @@
 - .claude/agents/plan-challenger.md
 - .claude/agents/postgresql-database-reviewer.md
 <!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-13T14:47:32Z -->
+- .claude/hookify/core/__pycache__/__init__.cpython-312.pyc
+- .claude/hookify/core/__pycache__/config_loader.cpython-312.pyc
+- .claude/hookify/core/__pycache__/rule_engine.cpython-312.pyc
+<!-- end-snapshot -->
+
+## 2026-03-13T16:00:00+01:00
+### Decisions
+- Migrated all 31 `.claude/commands/*.md` files into `.claude/skills/<name>/SKILL.md` directory structure
+- Deleted `iterate-pr.md` stub (canonical version already existed in skills/)
+- Cleaned Flutter/NestJS stack references from `description` fields of: `add-feature`, `security-dependencies`, `security-sast`, `ship`
+- Added frontmatter to `lint-design-system.md` (previously had none)
+### Constraints Stated by User
+- Migrate according to the approved plan exactly; description-field cleanup only (body content unchanged)
+### Files Modified
+- `.claude/skills/<name>/SKILL.md` (30 new files) — migrated from commands/ directory
+- `.claude/SKILLS_GUIDE.md` — updated skill count to 64, added Action Skills table (30 entries) and section
+### Deferred
+- Body content cleanup of Flutter/NestJS code blocks in ship, security-sast, security-dependencies (only descriptions were in scope)
+---
+
+<!-- git-snapshot 2026-03-13T14:51:16Z -->
+- .claude/SKILLS_GUIDE.md
+- .claude/commands/add-feature.md
+- .claude/commands/audit-security.md
+- .claude/commands/branch-cleanup.md
+- .claude/commands/cancel-ralph.md
+- .claude/commands/design-architecture.md
+- .claude/commands/design-database.md
+- .claude/commands/doc-generate.md
+- .claude/commands/hookify-configure.md
+- .claude/commands/hookify-list.md
+- .claude/commands/hookify.md
+- .claude/commands/iterate-pr.md
+- .claude/commands/lint-design-system.md
+- .claude/commands/plan-review.md
+- .claude/commands/pr-risk.md
+- .claude/commands/project-status.md
+- .claude/commands/promote-lessons.md
+- .claude/commands/ralph-loop.md
+- .claude/commands/review-code.md
+- .claude/commands/review-pr.md
+<!-- end-snapshot -->

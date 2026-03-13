@@ -2,7 +2,7 @@
 
 > Complete skill catalog for Claude Code Onboarding Kit. Use this to find the right skill for any task.
 >
-> 34 skills across 7 domains. Each skill is loaded with `/skill-name` or via `Skill` tool.
+> 64 skills across 8 domains. Each skill is loaded with `/skill-name` or via `Skill` tool.
 >
 > **Lazy-load pattern:** Each SKILL.md is a routing document only. Detailed patterns live in `reference/` files within each skill directory. Load the reference file explicitly when the detail is needed — do not expect it to be loaded automatically.
 
@@ -56,6 +56,43 @@
 - **the-fool**: Challenge ideas, plans, and decisions using structured adversarial reasoning — devil's advocate, pre-mortem, red team, Socratic questioning, and evidence falsification.
 - **feature-forge**: Used when defining new features, gathering requirements, or writing specifications before implementation starts. Runs PM+Dev dual-perspective interview, produces EARS-format functional requirements and Given/When/Then acceptance criteria saved to `specs/{feature}.spec.md`.
 - **iterate-pr**: Autonomous PR completion loop — fetches CI failures and review feedback, fixes and pushes until all checks are green. Classifies feedback by LOGAF scale (high/medium auto-fix, low asks user), polls CI, and posts GitHub thread replies.
+
+### Action Skills (30 slash commands)
+
+These were migrated from `.claude/commands/` and are invoked as `/command-name`:
+
+| Slash Command | Description |
+|---|---|
+| `/add-feature` | Add a new feature end-to-end across backend API and Angular UI |
+| `/audit-security` | Deep OWASP security audit across the full stack |
+| `/branch-cleanup` | Delete merged local and remote branches |
+| `/cancel-ralph` | Stop a running Ralph autonomous loop |
+| `/design-architecture` | Invoke the architect agent to design system architecture |
+| `/design-database` | Invoke the database-designer agent to design schemas |
+| `/doc-generate` | Generate project documentation from templates |
+| `/hookify` | Manage Claude Code hooks via the Hookify system |
+| `/hookify-configure` | Configure individual Hookify rules interactively |
+| `/hookify-list` | List all Hookify rules with enabled/disabled status |
+| `/lint-design-system` | Scan for design system violations (hardcoded colors, raw spacing, etc.) |
+| `/plan-review` | Structured plan review with self-review and production gates |
+| `/pr-risk` | Calculate composite PR risk score before merging |
+| `/project-status` | Quick status summary of the project |
+| `/promote-lessons` | Promote agent-memory lessons into skills/rules |
+| `/ralph-loop` | Start a Ralph Wiggum autonomous iteration loop |
+| `/review-code` | Dispatch code-quality and security reviewer agents |
+| `/review-pr` | Review a GitHub PR and post structured feedback |
+| `/scaffold-agentic-ai` | Scaffold a LangGraph AI agent service |
+| `/scaffold-angular-app` | Scaffold an Angular standalone component or feature |
+| `/scaffold-python-api` | Scaffold a FastAPI Python service |
+| `/scaffold-spring-api` | Scaffold a Spring Boot WebFlux REST API |
+| `/security-dependencies` | Multi-ecosystem dependency vulnerability scanner + SBOM |
+| `/security-hardening` | Comprehensive security hardening across the stack |
+| `/security-sast` | Run SAST tools (Bandit, Semgrep, ESLint Security, SpotBugs) |
+| `/ship` | Pre-deployment readiness check — tests, lint, build, CVE audit |
+| `/status-check` | Binary status report: works / broken / not implemented |
+| `/validate-changes` | LLM-as-a-Judge review of staged diff before commit |
+| `/worktree-sync` | Sync a git worktree branch with its upstream |
+| `/xss-scan` | Scan for XSS vulnerabilities in Angular templates and TypeScript |
 
 ---
 
@@ -255,3 +292,33 @@ writing-skills + subagent-driven-development + plan-mode-review
 | the-fool | workflow | expert | review | report |
 | iterate-pr | workflow | autonomous | pr-lifecycle | actions |
 | feature-forge | workflow | specialist | design | document |
+| add-feature | actions | specialist | implementation | actions |
+| audit-security | actions | specialist | security | actions |
+| branch-cleanup | actions | specialist | workflow | actions |
+| cancel-ralph | actions | specialist | workflow | actions |
+| design-architecture | actions | architect | design | actions |
+| design-database | actions | architect | design | actions |
+| doc-generate | actions | specialist | documentation | actions |
+| hookify | actions | specialist | workflow | actions |
+| hookify-configure | actions | specialist | workflow | actions |
+| hookify-list | actions | specialist | workflow | actions |
+| lint-design-system | actions | specialist | quality | actions |
+| plan-review | actions | architect | review | actions |
+| pr-risk | actions | specialist | review | actions |
+| project-status | actions | specialist | analysis | actions |
+| promote-lessons | actions | specialist | workflow | actions |
+| ralph-loop | actions | autonomous | workflow | actions |
+| review-code | actions | specialist | review | actions |
+| review-pr | actions | specialist | review | actions |
+| scaffold-agentic-ai | actions | specialist | implementation | actions |
+| scaffold-angular-app | actions | specialist | implementation | actions |
+| scaffold-python-api | actions | specialist | implementation | actions |
+| scaffold-spring-api | actions | specialist | implementation | actions |
+| security-dependencies | actions | specialist | security | actions |
+| security-hardening | actions | specialist | security | actions |
+| security-sast | actions | specialist | security | actions |
+| ship | actions | specialist | deployment | actions |
+| status-check | actions | specialist | analysis | actions |
+| validate-changes | actions | specialist | review | actions |
+| worktree-sync | actions | specialist | workflow | actions |
+| xss-scan | actions | specialist | security | actions |

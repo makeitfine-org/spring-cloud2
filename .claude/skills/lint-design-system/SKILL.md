@@ -1,3 +1,9 @@
+---
+description: Scan changed files for design system violations — hardcoded colors, raw spacing, inline typography, touch target issues. Run before submitting UI changes.
+allowed-tools: Bash, Read, Glob, Grep
+disable-model-invocation: true
+---
+
 # /lint-design-system
 
 Scan changed files for design system violations. Detects hardcoded colors, raw spacing values, inline typography, and touch target issues.

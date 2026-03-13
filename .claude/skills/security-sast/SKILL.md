@@ -1,5 +1,5 @@
 ---
-description: Static Application Security Testing across the full stack. Runs Bandit (Python), Semgrep (multi-language), ESLint Security (TypeScript/Angular), dart analyze (Flutter), SpotBugs (Java). Generates SARIF report with risk score 0-100.
+description: Static Application Security Testing across the full stack. Runs Bandit (Python), Semgrep (multi-language), ESLint Security (TypeScript/Angular), SpotBugs (Java). Generates SARIF report with risk score 0-100.
 allowed-tools: Bash, Read, Glob, Grep
 disable-model-invocation: true
 ---
