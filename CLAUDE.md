@@ -30,6 +30,8 @@ Spring Cloud reactive microservices demo — 5 Spring Boot services + Angular SP
 | order-service | 8081 | `.order` | Order lifecycle, saga coordinator |
 | inventory-service | 8082 | `.inventory` | Stock reservation (atomic SQL UPDATE) |
 | delivery-service | 8083 | `.delivery` | Delivery scheduling |
+| kafka-ui | 8090 | — | Kafka topic/consumer browser (provectuslabs/kafka-ui) |
+| zipkin | 9411 | — | Distributed tracing UI |
 
 All packages under: `reacty.probe.one.inventory.<suffix>`
 
@@ -52,7 +54,7 @@ All packages under: `reacty.probe.one.inventory.<suffix>`
 | inventorydb | 5433 | inventory-service |
 | deliverydb | 5434 | delivery-service |
 
-**MCP tools available:** `mcp__postgres-delivery__query`, `mcp__postgres-inventory__query` — use for live DB inspection.
+**MCP tools available:** `mcp__postgres-delivery__query`, `mcp__postgres-inventory__query`, `mcp__postgres-order__query` — use for live DB inspection.
 
 Pre-seeded inventory: `prod-1: 100`, `prod-2: 50`, `prod-3: 200`
 
@@ -91,22 +93,37 @@ Consult official docs via MCP before writing ANY code. Zero tolerance for deprec
 
 > Each technology has a dedicated skill with full patterns, templates, and references.
 > Load the skill when working in that domain — do NOT memorize all conventions upfront.
+>
+> `.claude/commands/` is empty — all slash commands live in `.claude/skills/` and are invoked as `/skill-name`.
+> Full catalog: `.claude/SKILLS_GUIDE.md` — 64 skills across 8 domains.
 
-| Technology | Skill | Agent | Command |
-|------------|-------|-------|---------|
+| Technology | Skill | Agent | Slash Command |
+|------------|-------|-------|---------------|
 | Java / Spring Boot | `.claude/skills/java-spring-api/` | `java-spring-api` | `/scaffold-spring-api` |
+| Java coding standards | `.claude/skills/java-coding-standard/` | — | — |
 | Python / FastAPI | `.claude/skills/python-dev/` | `python-dev` | `/scaffold-python-api` |
 | Agentic AI | `.claude/skills/agentic-ai-dev/` | `agentic-ai-dev` | `/scaffold-agentic-ai` |
+| Agentic AI standards | `.claude/skills/agentic-ai-coding-standard/` | — | — |
 | Angular | `.claude/skills/angular-spa/` | `angular-spa` | `/scaffold-angular-app` |
 | Database | `.claude/skills/database-schema-designer/` | `database-designer` | `/design-database` |
 | Architecture | `.claude/skills/architecture-design/` | `architect` | `/design-architecture` |
+| DDD | `.claude/skills/ddd-architect/` | — | — |
+| OpenAPI / API docs | `.claude/skills/openapi-spec-generation/` | — | — |
 | Plan Review | `.claude/skills/plan-mode-review/` | — | `/plan-review` |
+| PR Risk | `.claude/skills/pr-risk/` | — | `/pr-risk` |
+| PR Iterate | `.claude/skills/iterate-pr/` | — | `/iterate-pr` |
+| PR Review | `.claude/skills/pr-review/` | — | `/review-pr` |
 | Browser Testing | `.claude/skills/browser-testing/` | `browser-testing` | — |
 | Debugging | `.claude/skills/systematic-debugging/` | — | — |
 | Verification | `.claude/skills/verification-before-completion/` | — | — |
 | SDD Pipeline | `.claude/skills/subagent-driven-development/` | — | — |
 | Critical Reasoning | `.claude/skills/the-fool/` | — | — |
 | Requirements / Feature Spec | `.claude/skills/feature-forge/` | — | — |
+| Receiving Code Review | `.claude/skills/receiving-code-review/` | — | — |
+| Threat Modeling | `.claude/skills/threat-modeling/` | — | — |
+| SAST Configuration | `.claude/skills/sast-configuration/` | — | — |
+| TDD | `.claude/skills/test-driven-development/` | — | — |
+| Status Check | `.claude/skills/status-check/` | — | `/status-check` |
 
 ### Code Review Agents
 
@@ -119,10 +136,30 @@ Consult official docs via MCP before writing ANY code. Zero tolerance for deprec
 | Database | `postgresql-database-reviewer` |
 | UI/UX | `ui-standards-expert`, `frontend-design`, `accessibility-auditor` |
 | Tech debt | `dedup-code-agent` |
+| Silent failures / swallowed exceptions | `silent-failure-hunter` |
+| Comment accuracy / doc rot | `comment-analyzer` |
+| Code complexity reduction | `code-simplifier` |
+| Adversarial plan review | `plan-challenger` |
+| Type design quality | `type-design-analyzer` |
+| Test coverage gaps | `pr-test-analyzer` |
+| Runtime errors / log analysis | `error-detective` |
+| Pre-commit quality gate | `output-evaluator` |
 
 ## Common Commands
 
 > Stack-specific commands are lazy-loaded per skill. See `.claude/skills/<tech>/SKILL.md`.
+
+```bash
+# Key workflow skills (invoke as /command-name)
+/ship                 # Pre-deployment readiness: tests, lint, build, CVE audit
+/pr-risk              # Risk score before merge
+/review-pr            # Review GitHub PR and post structured feedback
+/iterate-pr           # Autonomous: fix CI failures and review feedback until green
+/status-check         # Binary status: works / broken / not implemented
+/validate-changes     # LLM-as-a-Judge review of staged diff before commit
+/review-code          # Dispatch code-quality and security reviewer agents
+/project-status       # Quick project health summary
+```
 
 ```bash
 # Docker (cross-cutting)

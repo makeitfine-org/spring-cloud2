@@ -5,11 +5,11 @@
       "Skill(angular-spa)"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "postgres"
   ],
   "enabledPlugins": {
-    "claude-mem@thedotmack": true
-  },
-  "enableAllProjectMcpServers": true
+    "claude-mem@thedotmack": false
+  }
 }
