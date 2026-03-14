@@ -1,9 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "model": "sonnet",
-  "plansDirectory": ".claude/docs/plans",
   "cleanupPeriodDays": 30,
-  "alwaysThinkingEnabled": false,
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "MAX_THINKING_TOKENS": "10000"
+  },
   "attribution": {
     "commit": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
     "pr": "🤖 Generated with Claude Code"
@@ -63,12 +65,6 @@
       "mcp__context7__*",
       "mcp__langchain-docs__*"
     ],
-    "ask": [
-      "Bash(git reset *)",
-      "Bash(git clean *)",
-      "Bash(git restore *)",
-      "Bash(rm *)"
-    ],
     "deny": [
       "Bash(git push --force *)",
       "Bash(git push -f *)",
@@ -88,14 +84,15 @@
       "Read(./**/*.keystore)",
       "Read(./**/*.jks)",
       "Read(./config/credentials.json)"
+    ],
+    "ask": [
+      "Bash(git reset *)",
+      "Bash(git clean *)",
+      "Bash(git restore *)",
+      "Bash(rm *)"
     ]
   },
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
-    "MAX_THINKING_TOKENS": "10000"
-  },
-  "teammateMode": "tmux",
+  "model": "sonnet",
   "hooks": {
     "PreToolUse": [
       {
@@ -318,5 +315,11 @@
         ]
       }
     ]
-  }
+  },
+  "enabledPlugins": {
+    "jdtls-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": false,
+  "plansDirectory": ".claude/docs/plans",
+  "teammateMode": "tmux"
 }
