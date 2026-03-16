@@ -245,6 +245,10 @@ Do NOT write a lesson for:
 - Clarifications that were never stated before
 - Requests to try a different approach when first approach was reasonable
 
+## Compact instructions
+
+When you are using compact, please focus on test output and code changes
+
 ## Meta
 
 The human monitors you in an IDE. Minimize mistakes they need to catch. You have unlimited stamina — the human does not. Loop on hard problems, not wrong problems.

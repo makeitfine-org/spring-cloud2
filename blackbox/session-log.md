@@ -385,3 +385,12 @@
 - .claude/hookify/core/__pycache__/rule_engine.cpython-312.pyc
 - blackbox/session-log.md
 <!-- end-snapshot -->
+
+<!-- git-snapshot 2026-03-16T12:04:45Z -->
+- .claude/hookify/core/__pycache__/__init__.cpython-312.pyc
+- .claude/hookify/core/__pycache__/config_loader.cpython-312.pyc
+- .claude/hookify/core/__pycache__/rule_engine.cpython-312.pyc
+- .claude/hooks/filter-test-output.sh
+- .claude/settings.json
+- CLAUDE.md
+<!-- end-snapshot -->
