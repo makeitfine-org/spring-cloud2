@@ -329,6 +329,6 @@
   "teammateMode": "tmux",
   "statusLine": {
     "type": "command",
-    "command": "jq -r '\"\\u001b[36m\\(.model.display_name)\\u001b[0m | context: \\u001b[33m\\(.context_window.used_percentage // 0)%\\u001b[0m | limit: \\u001b[32m\\(.rate_limits.five_hour.used_percentage)% [\\(.rate_limits.five_hour.resets_at | strflocaltime(\"%H:%M\"))]\\u001b[0m\"'"
+    "command": "jq -r '\"\\u001b[36m\\(.model.display_name) [effort: \\(.effort.level) | think: \\(.thinking.enabled)]\\u001b[0m | context: \\u001b[33m\\(.context_window.used_percentage // 0)%\\u001b[0m | limit: \\u001b[32m\\(.rate_limits.five_hour.used_percentage)% [\\(.rate_limits.five_hour.resets_at | strflocaltime(\"%H:%M\"))]\\u001b[0m\"'"
   }
 }

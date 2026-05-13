@@ -20,7 +20,8 @@ class FallbackControllerTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.status").isEqualTo("SERVICE_UNAVAILABLE");
+                .jsonPath("$.status").isEqualTo("SERVICE_UNAVAILABLE")
+                .jsonPath("$.message").isEqualTo("Order service is currently unavailable. Please try again later.");
     }
 
     @Test
@@ -30,7 +31,8 @@ class FallbackControllerTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.status").isEqualTo("SERVICE_UNAVAILABLE");
+                .jsonPath("$.status").isEqualTo("SERVICE_UNAVAILABLE")
+                .jsonPath("$.message").isEqualTo("Inventory service is currently unavailable. Please try again later.");;
     }
 
     @Test
@@ -40,6 +42,7 @@ class FallbackControllerTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.status").isEqualTo("SERVICE_UNAVAILABLE");
+                .jsonPath("$.status").isEqualTo("SERVICE_UNAVAILABLE")
+                .jsonPath("$.message").isEqualTo("Delivery service is currently unavailable. Please try again later.");;
     }
 }
